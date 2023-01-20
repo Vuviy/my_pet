@@ -12,14 +12,18 @@
 */
 
 
+
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function(){
 
-    Route::prefix('blog')->group(function() {
-        Route::get('/', 'BlogController@index')->name('blog');
-    });
+    Route::get('/', 'HomeController@index')->name('home');
+
 });
 
+
+//Route::prefix('home')->group(function() {
+//    Route::get('/', 'HomeController@index');
+//});

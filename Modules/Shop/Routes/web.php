@@ -18,8 +18,8 @@ Route::group(
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function(){
 
-    Route::prefix('blog')->group(function() {
-        Route::get('/', 'BlogController@index')->name('blog');
+    Route::prefix('shop')->group(function() {
+        Route::get('/', 'ShopController@index')->name('shop');
     });
 });
 

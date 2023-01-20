@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('home::layouts.main')
 
 @section('content')
     <h1>{{__('blog::main.Hello World')}}</h1>
