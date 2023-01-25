@@ -2,11 +2,15 @@
 
 namespace Modules\Home\Http\Controllers;
 
-use App\Models\Post;
-use Modules\Home\Models\HeaderMenu;
+use App\Models\Test;
+use DiDom\Document;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
+use Modules\Blog\Models\Post;
+use Modules\Parser\Contracts\IDataResource;
+use PhpParser\Comment\Doc;
 
 class HomeController extends Controller
 {
@@ -14,11 +18,18 @@ class HomeController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(IDataResource $resource)
     {
-        $post = Post::find(1);
 
-        return view('home::index', compact('post'));
+//        $arr = json_decode(Storage::get('modules/Ukraine_file_SAVED.json'), true);
+//
+//        dd($arr);
+        $resource->saveInDB();
+//        Storage::delete('modules/Ukraine_file.json');
+//        Storage::put('modules/Ukraine_file.json', 'dfsfsdfsd');
+//        dd($resource->saveInDB());
+//        echo date_default_timezone_get();
+        return view('home::index');
     }
 
     /**

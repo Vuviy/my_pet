@@ -14,5 +14,7 @@ return [
     */
 
     'Hello World' => 'Hello World',
+    'read all' => 'Read All',
+    'author' => 'Author',
 
 ];

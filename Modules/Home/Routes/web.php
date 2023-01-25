@@ -23,7 +23,23 @@ Route::group(
 
 });
 
+Route::group(
+    [
+        'prefix' => 'admin',
+        'middleware' => 'auth',
+    ], function(){
 
-//Route::prefix('home')->group(function() {
-//    Route::get('/', 'HomeController@index');
-//});
+//    Auth::routes();
+
+    Route::get('/', [\Modules\Home\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin');
+
+});
+
+
+
+
+//    Route::get('/login', [\Modules\Home\Http\Controllers\Admin\HomeController::class, 'loginForm'])->name('login_form');
+//    Route::get('/register', [\Modules\Home\Http\Controllers\Admin\HomeController::class, 'registerForm'])->name('register_form');
+//
+//    Route::post('/login', [\Modules\Home\Http\Controllers\Admin\HomeController::class, 'login'])->name('login');
+//    Route::post('/register', [\Modules\Home\Http\Controllers\Admin\HomeController::class, 'register'])->name('register');

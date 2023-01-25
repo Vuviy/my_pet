@@ -1,5 +1,6 @@
 {
     "Blog": true,
     "Home": true,
-    "Shop": true
+    "Shop": true,
+    "Parser": true
 }

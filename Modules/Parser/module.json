@@ -1,0 +1,11 @@
+{
+    "name": "Parser",
+    "alias": "parser",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Parser\\Providers\\ParserServiceProvider"
+    ],
+    "files": []
+}

@@ -20,6 +20,8 @@ Route::group(
 
     Route::prefix('blog')->group(function() {
         Route::get('/', 'BlogController@index')->name('blog');
+        Route::get('/show/{id}', 'BlogController@show')->name('show');
+
     });
 });
 

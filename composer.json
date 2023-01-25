@@ -8,9 +8,12 @@
         "php": "^8.0.2",
         "astrotomic/laravel-translatable": "^11.11",
         "guzzlehttp/guzzle": "^7.2",
+        "imangazaliev/didom": "^2.0",
+        "jeroennoten/laravel-adminlte": "^3.8",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "laravel/ui": "^4.2",
         "mcamara/laravel-localization": "^1.7",
         "nwidart/laravel-modules": "^9.0"
     },
