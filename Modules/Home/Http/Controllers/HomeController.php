@@ -2,6 +2,10 @@
 
 namespace Modules\Home\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Country;
+use App\Models\Profession;
+use App\Models\Salary;
 use App\Models\Test;
 use DiDom\Document;
 use Illuminate\Contracts\Support\Renderable;
@@ -21,15 +25,45 @@ class HomeController extends Controller
     public function index(IDataResource $resource)
     {
 
+//        $ch = curl_init('https://info.yavkursi.com/profi_list2');
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//        curl_setopt($ch, CURLOPT_HEADER, false);
+//        $html =curl_exec($ch);
+//        curl_close($ch);
+
+//        $countries = Country::query()->paginate(5);
+        $professions = Profession::query()->paginate(5);
+
+
+//        dd($countries[3]->salaries);
+
+        return view('home::sala', compact( 'professions'));
+
+//        foreach ($countries as $country)
+//        {
+//            foreach ($professions as $profession)
+//            {
+//                $model = new Salary();
+//                $model->fill(
+//                    [
+//                        'amount' => random_int(50, 950),
+//                        'profession_id' => $profession->id,
+//                        'country_id' => $country->id,
+//                    ]
+//                )->save();
+//            }
+//        }
+
 //        $arr = json_decode(Storage::get('modules/Ukraine_file_SAVED.json'), true);
 //
 //        dd($arr);
-        $resource->saveInDB();
+//        $resource->saveInDB();
 //        Storage::delete('modules/Ukraine_file.json');
 //        Storage::put('modules/Ukraine_file.json', 'dfsfsdfsd');
 //        dd($resource->saveInDB());
 //        echo date_default_timezone_get();
-        return view('home::index');
+//        return view('home::index');
     }
 
     /**

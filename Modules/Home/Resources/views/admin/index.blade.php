@@ -1,11 +1,14 @@
-@extends('home::admin.layouts.main')
+
+
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>контент хедер тут</h1>
+@stop
 
 @section('content')
+    <p>тут контент</p>
+@stop
 
-    <main>
-
-        <h1>admin home</h1>
-    </main>
-
-
-@endsection

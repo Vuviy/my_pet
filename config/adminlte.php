@@ -311,6 +311,34 @@ return [
 //            'url'  => '/blog',
 //            'can'  => 'manage-blog',
 //        ],
+         [
+            'text'        => 'Країни',
+            'url'         => 'admin/country',
+            'icon'        => 'far fa-fw fa-file',
+//            'label'       => 3,
+//            'label_color' => 'success',
+         ],
+        [
+            'text'        => 'Професії',
+            'url'         => 'admin/professions',
+            'icon'        => 'far fa-fw fa-file',
+//            'label'       => 3,
+//            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Зарплати',
+            'url'         => 'admin/salary',
+            'icon'        => 'far fa-fw fa-file',
+//            'label'       => 3,
+//            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Категорії',
+            'url'         => 'admin/category',
+            'icon'        => 'far fa-fw fa-file',
+//            'label'       => 3,
+//            'label_color' => 'success',
+        ],
 //        [
 //            'text'        => 'pages',
 //            'url'         => 'admin/pages',
@@ -421,22 +449,67 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                ],
+            ],
+        ],
+        'DatatablesPlugins' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.html5.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.print.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/jszip/jszip.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/pdfmake/pdfmake.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/pdfmake/vfs_fonts.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css',
                 ],
             ],
         ],

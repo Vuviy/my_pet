@@ -28,6 +28,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 //    Route::get('/sraka', [\App\Http\Controllers\HomeController::class, 'index']);
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::post('ajax', [App\Http\Controllers\HomeController::class, 'ajax'])->name('ajax');

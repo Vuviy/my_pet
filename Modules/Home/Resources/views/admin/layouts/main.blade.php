@@ -22,9 +22,19 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+
+
     <!-- Scripts -->
+<!-- jQuery -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE -->
+<script src="vendor/adminlte/dist/js/adminlte.js"></script>
 </head>
 <body>
+
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -130,18 +140,14 @@
         </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE -->
-    <script src="vendor/adminlte/dist/js/adminlte.js"></script>
+
 
 {{--    <!-- OPTIONAL SCRIPTS -->--}}
 {{--    <script src="plugins/chart.js/Chart.min.js"></script>--}}
 {{--    <script src="dist/js/demo.js"></script>--}}
 {{--    <script src="dist/js/pages/dashboard3.js"></script>--}}
 
-    @stack('scripts')
+@stack('scripts')
 </body>
 </html>
+

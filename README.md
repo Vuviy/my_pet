@@ -68,3 +68,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 Після composer install потрібно редагувати файл "vendor/jeroennoten/laravel-adminlte/resources/views/partials/navbar/menu-item-dropdown-user-menu.blade.php" і замінити @if (config('adminlte.use_route_url', false)) на @if (!config('adminlte.use_route_url', false))
 
+Після composer install потрібно закоментувати в файл "vendor/jeroennoten/laravel-adminlte/resources/views/page.blade.php" рядки 23-25
+@if($layoutHelper->isLayoutTopnavEnabled())
+@include('adminlte::partials.navbar.navbar-layout-topnav')
+@else
