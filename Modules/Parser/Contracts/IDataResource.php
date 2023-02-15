@@ -2,9 +2,10 @@
 
 namespace Modules\Parser\Contracts;
 
+use Modules\Home\Models\Country;
+
 interface IDataResource
 {
-    public function parse($url);
-    public function saveInDB();
+    public function parse(Country $country);
 
 }

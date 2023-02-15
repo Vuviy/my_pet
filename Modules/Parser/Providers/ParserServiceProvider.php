@@ -46,9 +46,9 @@ class ParserServiceProvider extends ServiceProvider
             Parse::class,
         ]);
 
-        $this->app->bind('Parser', ParserService::class);
+//        $this->app->bind('Parser', ParserService::class);
 
-        $this->app->bind(IDataResource::class,UkraineService::class);
+        $this->app->bind(IDataResource::class,ParserService::class);
     }
 
     /**

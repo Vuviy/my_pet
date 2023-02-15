@@ -2,11 +2,11 @@
 
 namespace Modules\Home\Http\Controllers\Admin;
 
-use App\Models\Category;
-use App\Models\Country;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Home\Filters\CategoryFilter;
+use Modules\Home\Models\Category;
 use function view;
 
 class CategoryController extends Controller
@@ -15,7 +15,7 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(CategoryFilter $filter)
     {
         $heads = [
             'ID',
@@ -24,23 +24,40 @@ class CategoryController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
 
-        $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                    </button>';
-        $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-                          <i class="fa fa-lg fa-fw fa-trash"></i>
-                      </button>';
-        $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                           <i class="fa fa-lg fa-fw fa-eye"></i>
-                       </button>';
+//        $data = Category::query()->select('id', 'name', 'status')->get()->toArray();
+//        $data = Category::filter($filter)->get();
+        $data = Category::filter($filter)->get();
 
-        $data = Category::query()->select('id', 'name')->get()->toArray();
 
+//        dd($data[0]->id);
         $categories = [];
+
         foreach ($data as $category)
         {
-            $category['btns'] = '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
-            $categories[] = $category;
+
+//            dd($category->translation->name);
+
+            $li = '<i class="fa fa-lg fa-fw fa-eye"></i>';
+            if($category->status == 0)
+            {
+                $li = '<i class="fa fa-lg fa-fw fa-eye-slash text-red"></i>';
+            }
+
+            $btnEdit = '<a href="category/'. $category->id . '/edit" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+                        <i class="fa fa-lg fa-fw fa-pen"></i>
+                    </a>';
+            $btnDelete = '<button name="delete" data-id="'. $category->id .'" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+                          <i class="fa fa-lg fa-fw fa-trash"></i>
+                      </button>';
+            $btnDetails = '<button name="status" data-id="'. $category->id .'" class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">'.$li.'</button>';
+
+            //fa-eye-slash
+            //' . $country->status == 0 ? "text-red fa-eye-slash" : "fa-eye" . '
+            $categoryArr = [];
+            $categoryArr['id'] = $category->id;
+            $categoryArr['name'] = $category->name;
+            $categoryArr['btns'] = '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
+            $categories[] = $categoryArr;
         }
 
         return view('home::admin.category.index', compact('categories', 'heads'));
@@ -52,8 +69,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('home::admin.category.form');
-    }
+        $action = 'Creating';
+
+        return view('home::admin.category.form', compact('action'));    }
 
     /**
      * Store a newly created resource in storage.
@@ -62,7 +80,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'status' => isset($request->status) ? 1 : 0,
+            'uk' => ['name' => $request->name_uk],
+            'en' => ['name' => $request->name_en],
+        ];
+
+
+        $category = new Category();
+
+        $category->fill($data)->save();
+
+        return $category->id;
     }
 
     /**
@@ -82,7 +111,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        return view('home::edit');
+        $model = Category::findOrFail($id);
+        $action = 'Edit';
+
+//        dd($model->translate('en')->name);
+        return view('home::admin.category.form', compact('model', 'action'));
     }
 
     /**
@@ -93,7 +126,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = [
+            'status' => isset($request->status) ? 1 : 0,
+            'uk' => ['name' => $request->name_uk],
+            'en' => ['name' => $request->name_en],
+        ];
+//        dd($data);
+
+        $category = Category::findOrFail($id);
+
+        $category->update($data);
+
+        return $category->id;
     }
 
     /**
@@ -103,6 +147,23 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = Category::findOrFail($id);
+        $model->delete();
+
+        return $id;
+    }
+
+
+    public function changeStatus($id)
+    {
+
+        $model = Category::findOrFail($id);
+
+//        dd($model->status);
+
+        $model->status = $model->status ? 0 : 1;
+        $model->save();
+
+        return $model->id;
     }
 }

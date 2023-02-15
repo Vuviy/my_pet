@@ -2,8 +2,10 @@
 
 namespace Modules\Home\Http\Controllers\Admin;
 
-use App\Models\Profession;
-use App\Models\Salary;
+use Modules\Home\Filters\SalaryFilter;
+use Modules\Home\Models\Country;
+use Modules\Home\Models\Profession;
+use Modules\Home\Models\Salary;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -15,7 +17,7 @@ class SalaryController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(SalaryFilter $filter)
     {
 
         $heads = [
@@ -27,30 +29,42 @@ class SalaryController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
 
-        $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                    </button>';
-        $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-                          <i class="fa fa-lg fa-fw fa-trash"></i>
-                      </button>';
-        $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                           <i class="fa fa-lg fa-fw fa-eye"></i>
-                       </button>';
-
-        $data = Salary::query()->select('id', 'amount', 'profession_id', 'country_id')->with('country', 'profession')->get()->toArray();
-
+        $data = Salary::filter($filter)->get();
 
         $salaries = [];
+
         foreach ($data as $salary)
         {
-            $salary['btns'] = '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
-            $salary['country_id'] = '<a href="country/edit/'.$salary['country']['id'].'">'.$salary['country']['name'].'</a>';
-            $salary['profession_id'] = '<a href="country/edit/'.$salary['profession']['id'].'">'.$salary['profession']['name'].'</a>';
-            unset($salary['country']);
-            unset($salary['profession']);
-            $salaries[] = $salary;
+
+            $li = '<i class="fa fa-lg fa-fw fa-eye"></i>';
+            if($salary->status == 0)
+            {
+                $li = '<i class="fa fa-lg fa-fw fa-eye-slash text-red"></i>';
+            }
+
+            $btnEdit = '<a href="salary/'. $salary->id . '/edit" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+                        <i class="fa fa-lg fa-fw fa-pen"></i>
+                    </a>';
+            $btnDelete = '<button name="delete" data-id="'. $salary->id .'" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+                          <i class="fa fa-lg fa-fw fa-trash"></i>
+                      </button>';
+            $btnDetails = '<button name="status" data-id="'. $salary->id .'" class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">'.$li.'</button>';
+
+            //fa-eye-slash
+            $salaryArr = [];
+            $salaryArr['id'] = $salary->id;
+            $salaryArr['amount'] = $salary->amount;
+            $salaryArr['profession_id'] = '<a href="professions/'.$salary->profession->id.'/edit'.'">'.$salary->profession->name.'</a>';;
+            $salaryArr['country_id'] = '<a href="country/'.$salary->country->id.'/edit'.'">'. $salary->country->name .'</a>';
+            $salaryArr['btns'] = '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
+            $salaries[] = $salaryArr;
+
         }
-        return view('home::admin.salary.index', compact('salaries', 'heads'));
+
+        $professions = Profession::all();
+        $countries = Country::all();
+
+        return view('home::admin.salary.index', compact('salaries', 'heads', 'professions', 'countries'));
     }
 
     /**
@@ -59,8 +73,12 @@ class SalaryController extends Controller
      */
     public function create()
     {
-        return view('home::admin.salary.form');
-    }
+        $action = 'Creating';
+        $professions = Profession::all();
+        $countries = Country::all();
+
+
+        return view('home::admin.salary.form', compact('action', 'professions', 'countries'));    }
 
     /**
      * Store a newly created resource in storage.
@@ -69,7 +87,22 @@ class SalaryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $data = [
+            'amount' => $request->amount,
+            'status' => isset($request->status) ? 1 : 0,
+            'profession_id' => $request->profession,
+            'country_id' => $request->country,
+        ];
+
+//        dd($data);
+
+
+        $salary = new Salary();
+
+        $salary->fill($data)->save();
+
+        return $salary->id;
     }
 
     /**
@@ -89,9 +122,31 @@ class SalaryController extends Controller
      */
     public function edit($id)
     {
-        return view('home::edit');
-    }
+        $action = 'Edit';
+        $model = Salary::findOrFail($id);
+        $professions = Profession::all();
 
+
+//        foreach ($professions as $pro)
+//        {
+//          echo  isset($pro->category) ? $pro->category->name. '<br>' : '---'. '<br>';
+//        }
+//                echo '<br>';
+//            } else{
+//                echo '---';
+//                echo '<br>';
+//            }
+//        }
+//        dd($professions[102]->category);
+
+
+        $countries = Country::all();
+
+//        dd($model);
+
+        return view('home::admin.salary.form', compact('action', 'model', 'professions', 'countries'));
+
+    }
     /**
      * Update the specified resource in storage.
      * @param Request $request
@@ -100,7 +155,24 @@ class SalaryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+
+
+        $data = [
+            'amount' => $request->amount,
+            'status' => $request->status ? 1 : 0,
+            'profession_id' => $request->profession,
+            'country_id' => $request->country,
+        ];
+//        dd($data);
+
+//        dd($data);
+
+        $salary = Salary::findOrFail($id);
+
+        $salary->update($data);
+
+        return $salary->id;
     }
 
     /**
@@ -110,6 +182,20 @@ class SalaryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = Salary::findOrFail($id);
+        $model->delete();
+
+        return $id;
+    }
+
+    public function changeStatus($id)
+    {
+
+        $model = Salary::findOrFail($id);
+
+        $model->status = $model->status ? 0 : 1;
+        $model->save();
+
+        return $model->id;
     }
 }

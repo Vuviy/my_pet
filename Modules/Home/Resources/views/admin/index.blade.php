@@ -10,5 +10,7 @@
 
 @section('content')
     <p>тут контент</p>
+
+
 @stop
 

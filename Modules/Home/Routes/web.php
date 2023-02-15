@@ -34,9 +34,20 @@ Route::group(
     Route::get('/', [\Modules\Home\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin');
 
     Route::resource('/country', \Modules\Home\Http\Controllers\Admin\CountryController::class);
+    Route::post('/country/{id}/load_cost_live', [\Modules\Home\Http\Controllers\Admin\CountryController::class, 'loadCostLive'])->name('loadCostLive');
+    Route::post('/country/status/{id}', [\Modules\Home\Http\Controllers\Admin\CountryController::class, 'changeStatus'])->name('countryChangeStatus');
+
+
     Route::resource('/professions', \Modules\Home\Http\Controllers\Admin\ProfessionController::class);
+    Route::post('/professions/status/{id}', [\Modules\Home\Http\Controllers\Admin\ProfessionController::class, 'changeStatus'])->name('professionChangeStatus');
+
+
     Route::resource('/salary', \Modules\Home\Http\Controllers\Admin\SalaryController::class);
+    Route::post('/salary/status/{id}', [\Modules\Home\Http\Controllers\Admin\SalaryController::class, 'changeStatus'])->name('salaryChangeStatus');
+
     Route::resource('/category', \Modules\Home\Http\Controllers\Admin\CategoryController::class);
+    Route::post('/category/status/{id}', [\Modules\Home\Http\Controllers\Admin\CategoryController::class, 'changeStatus'])->name('categoryChangeStatus');
+
 
 });
 

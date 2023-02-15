@@ -14,5 +14,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'ajax',
         'admin/country/*',
+        'admin/category/*',
+        'admin/professions/*',
+        'admin/salary/*',
     ];
 }

@@ -25,6 +25,7 @@ class HomeController extends Controller
     public function index(IDataResource $resource)
     {
 
+
 //        $ch = curl_init('https://info.yavkursi.com/profi_list2');
 //        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

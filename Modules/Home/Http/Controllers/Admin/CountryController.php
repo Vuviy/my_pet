@@ -2,11 +2,14 @@
 
 namespace Modules\Home\Http\Controllers\Admin;
 
-use App\Models\Country;
+use DiDom\Document;
+use Modules\Home\Models\Country;
 use App\Models\CountryTranslation;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Home\Filters\CountryFilter;
+use Modules\Parser\Contracts\IDataResource;
 use function view;
 
 class CountryController extends Controller
@@ -15,10 +18,8 @@ class CountryController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(CountryFilter $request)
     {
-
-//        dd(route('country.destroy', ['country' => 4]));
 
         $heads = [
             'ID',
@@ -27,27 +28,31 @@ class CountryController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
 
+        $data = Country::filter($request)->get();
 
-        $data = Country::all();
-
-
-//        dd($data[0]->id);
         $countries = [];
 
             foreach ($data as $country)
             {
+                $li = '<i class="fa fa-lg fa-fw fa-eye"></i>';
+                if($country->status == 0)
+                {
+                    $li = '<i class="fa fa-lg fa-fw fa-eye-slash text-red"></i>';
+                }
+
             $btnEdit = '<a href="country/'. $country->id . '/edit" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                         <i class="fa fa-lg fa-fw fa-pen"></i>
                     </a>';
             $btnDelete = '<button name="delete" data-id="'. $country->id .'" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
                           <i class="fa fa-lg fa-fw fa-trash"></i>
                       </button>';
-            $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                           <i class="fa fa-lg fa-fw fa-eye"></i>
-                       </button>';
+            $btnDetails = '<button name="status" data-id="'. $country->id .'" class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">'.$li.'</button>';
+
+            //fa-eye-slash
+                //' . $country->status == 0 ? "text-red fa-eye-slash" : "fa-eye" . '
             $countryArr = [];
             $countryArr['id'] = $country->id;
-            $countryArr['name'] = $country->translation->name;
+            $countryArr['name'] = $country->name;
             $countryArr['btns'] = '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>';
             $countries[] = $countryArr;
         }
@@ -75,6 +80,7 @@ class CountryController extends Controller
     {
 
         $data = [
+            'status' => isset($request->status) ? 1 : 0,
             'uk' => ['name' => $request->name_uk],
             'en' => ['name' => $request->name_en],
         ];
@@ -120,10 +126,16 @@ class CountryController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $data = [
+            'cost_live' => $request->cost_live,
+            'rent' => $request->rent,
+            'square_meter' => $request->square_meter,
+            'status' => isset($request->status) ? 1 : 0,
             'uk' => ['name' => $request->name_uk],
             'en' => ['name' => $request->name_en],
         ];
+//        dd($data);
 
         $country = Country::findOrFail($id);
 
@@ -139,17 +151,31 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-
-//        return $id.'sraka';
-//        dd($id);
-
-
-        dd($id);
-
-        $model = Country::destroy($id);
+        $model = Country::findOrFail($id);
+        $model->delete();
 
         return $id;
-
-
     }
+
+    public function changeStatus($id)
+    {
+
+        $model = Country::findOrFail($id);
+        $model->status = $model->status ? 0 : 1;
+        $model->save();
+
+        return $model->id;
+    }
+
+    public function loadCostLive($id, IDataResource $parser)
+    {
+        $country = Country::findOrFail($id);
+
+        $data = $parser->parse($country);
+
+        $country->fill($data)->save();
+
+        return json_encode($data);
+    }
+
 }

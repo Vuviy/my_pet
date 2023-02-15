@@ -1,26 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Home\Models;
 
 use App\Filters\QueryFilter;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Profession extends Model implements TranslatableContract
+class Country extends Model implements TranslatableContract
 {
     use Translatable;
     use HasFactory;
 
-    public $translatedAttributes = ['name', 'locale'];
-    protected $fillable = ['status', 'category_id'];
+    public $translatedAttributes = ['name'];
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
+    protected $fillable = ['status', 'cost_live', 'rent', 'square_meter'];
 
     public function salaries()
     {
@@ -31,4 +27,5 @@ class Profession extends Model implements TranslatableContract
     {
         return $filter->apply($builder);
     }
+
 }

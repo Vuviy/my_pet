@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Home\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProfessionTranslation extends Model
+class CountryTranslation extends Model
 {
     use HasFactory;
 
     public $timestamps = true;
-    protected $fillable = ['name', 'locale', 'profession_id'];
+    protected $fillable = ['name', 'locale', 'country_id'];
 }

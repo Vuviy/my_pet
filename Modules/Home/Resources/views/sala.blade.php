@@ -9,7 +9,7 @@
 
     <main>
 
-        <button  id="btn" type="button" class="btn btn-success">gggggg</button>
+{{--        <button  id="btn" type="button" class="btn btn-success">gggggg</button>--}}
 
 
         <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
