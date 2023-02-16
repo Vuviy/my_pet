@@ -15,4 +15,22 @@ return [
 
     'Punny headline' => 'Пані головалінія',
     'And an even wittier subheading to boot. Jumpstart your marketing efforts with this example based on Apple’s marketing pages.' => 'мспоар кее4гнекацв  оннлгнр н укенорап вісфі а впроа л орпа в і  аук еп  ар па о ',
-];
+
+    'Enter' => 'Перейти',
+    'Professions index' => 'Індекс професій',
+    'Profession' => 'Професія',
+    'Enter profession' => 'Введіть професію',
+    'Profession index desc' => 'Опис індексу професій',
+    'Countries index desc' => 'Опис індексу країн',
+    'Indexes desc' => 'Опис індексу',
+    'Countries' => 'Країни',
+    'Country' => 'Країна',
+    'Indexes' => 'Індекси',
+    'Index' => 'Індекс',
+    'Salary' => 'Оплата',
+    'Index of profession' => 'Індекс поваги професії',
+    'search' => 'Пошук',
+
+
+
+    ];

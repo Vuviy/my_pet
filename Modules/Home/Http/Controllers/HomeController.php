@@ -34,12 +34,12 @@ class HomeController extends Controller
 //        curl_close($ch);
 
 //        $countries = Country::query()->paginate(5);
-        $professions = Profession::query()->paginate(5);
+//        $professions = Profession::query()->paginate(5);
 
 
 //        dd($countries[3]->salaries);
 
-        return view('home::sala', compact( 'professions'));
+//        return view('home::sala', compact( 'professions'));
 
 //        foreach ($countries as $country)
 //        {
@@ -64,7 +64,7 @@ class HomeController extends Controller
 //        Storage::put('modules/Ukraine_file.json', 'dfsfsdfsd');
 //        dd($resource->saveInDB());
 //        echo date_default_timezone_get();
-//        return view('home::index');
+        return view('home::index');
     }
 
     /**

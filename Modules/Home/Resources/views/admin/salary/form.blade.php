@@ -90,6 +90,25 @@
             @if(isset($model)){{$model->status ? 'checked' : ''}}@endif>
         </div>
 
+        <div class="border p-3 mt-3">
+            <label for="respect_index">Respect index</label>
+
+            @if(isset($model))
+                    @if($model->respect_index)
+                        <h3 class="h3">{{$model->respect_index}}</h3>
+                    @else
+                    <h3 class="h3">Не визначено</h3>
+                    @endif
+            @endif
+{{--            <input id="respect_index" name="respect_index"  class="form-control" type="number"--}}
+{{--                   value="@if(isset($model))--}}
+{{--                                @if($model->respect_index)--}}
+{{--                                    {{$model->respect_index}}--}}
+{{--                                @endif--}}
+{{--                            @endif">--}}
+            <button  class="calculate_index btn btn-dark mt-3">Розрахувати</button>
+        </div>
+
 
     </form>
 

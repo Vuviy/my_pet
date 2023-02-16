@@ -21,6 +21,15 @@ Route::group(
 
     Route::get('/', 'HomeController@index')->name('home');
 
+    Route::get('/professions', [\Modules\Home\Http\Controllers\ProfessionController::class, 'professions'])->name('professions');
+//    Route::get('/professions/search/{profession}', [\Modules\Home\Http\Controllers\ProfessionController::class, 'professionsSearch'])->name('professionsSearch');
+
+    Route::get('/autocomplete-search', [\Modules\Home\Http\Controllers\ProfessionController::class, 'autocompleteSearch'])->name('autocomplete-search');
+
+
+    Route::get('/countries', [\Modules\Home\Http\Controllers\ProfessionController::class, 'countries'])->name('countries');
+    Route::get('/indexes', [\Modules\Home\Http\Controllers\ProfessionController::class, 'indexes'])->name('indexes');
+
 });
 
 Route::group(
@@ -42,12 +51,15 @@ Route::group(
     Route::post('/professions/status/{id}', [\Modules\Home\Http\Controllers\Admin\ProfessionController::class, 'changeStatus'])->name('professionChangeStatus');
 
 
+    Route::resource('/menu', \Modules\Home\Http\Controllers\Admin\MenuController::class);
+    Route::post('/menu/status/{id}', [\Modules\Home\Http\Controllers\Admin\MenuController::class, 'changeStatus'])->name('menuChangeStatus');
+
+
     Route::resource('/salary', \Modules\Home\Http\Controllers\Admin\SalaryController::class);
     Route::post('/salary/status/{id}', [\Modules\Home\Http\Controllers\Admin\SalaryController::class, 'changeStatus'])->name('salaryChangeStatus');
 
     Route::resource('/category', \Modules\Home\Http\Controllers\Admin\CategoryController::class);
     Route::post('/category/status/{id}', [\Modules\Home\Http\Controllers\Admin\CategoryController::class, 'changeStatus'])->name('categoryChangeStatus');
-
 
 });
 

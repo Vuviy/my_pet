@@ -16,4 +16,18 @@ return [
     'Punny headline' => 'Punny headline',
     'And an even wittier subheading to boot. Jumpstart your marketing efforts with this example based on Apple’s marketing pages.' => 'And an even wittier subheading to boot. Jumpstart your marketing efforts with this example based on Apple’s marketing pages.',
 
+    'Enter' => 'Enter',
+    'Professions index' => 'Professions index',
+    'Profession' => 'Profession',
+    'Enter profession' => 'Enter profession',
+    'Profession index desc' => 'Profession index desc',
+    'Countries index desc' => 'Countries index desc',
+    'Indexes desc' => 'Indexes desc',
+    'Countries' => 'Countries',
+    'Country' => 'Country',
+    'Salary' => 'Salary',
+    'Indexes' => 'Indexes',
+    'Index' => 'Index',
+    'Index of profession' => 'Index of profession',
+    'search' => 'Search',
 ];

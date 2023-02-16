@@ -81,7 +81,8 @@ class ProfessionController extends Controller
         $action = 'Creating';
         $categories = Category::all();
 
-        return view('home::admin.profession.form', compact('action', 'categories'));    }
+        return view('home::admin.profession.form', compact('action', 'categories'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -130,7 +131,9 @@ class ProfessionController extends Controller
         $action = 'Edit';
 
 //        dd($model->translate('en')->name);
-        return view('home::admin.profession.form', compact('model', 'action', 'categories'));    }
+        return view('home::admin.profession.form', compact('model', 'action', 'categories'));
+
+    }
 
     /**
      * Update the specified resource in storage.

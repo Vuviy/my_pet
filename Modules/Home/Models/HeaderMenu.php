@@ -15,5 +15,5 @@ class HeaderMenu extends Model implements TranslatableContract
 
 
     public $translatedAttributes = ['title'];
-    protected $fillable = ['link'];
+    protected $fillable = ['link', 'status'];
 }
