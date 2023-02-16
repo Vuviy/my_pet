@@ -37,9 +37,9 @@
                 </div>
             @endforeach
         </div>
-        <div>
+        <div class="w-25 mx-auto">
 
-        {{$professions->links('vendor.pagination.bootstrap-5')}}
+        {{$professions->withQueryString()->links('vendor.pagination.bootstrap-5')}}
 
         </div>
 

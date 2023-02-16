@@ -29,6 +29,9 @@ class CountryFilter extends QueryFilter
         {
             return $this->builder;
         }
-        return $this->builder->join('country_translations', 'country_translations.country_id', '=', 'countries.id')->where('locale', 'uk')->where('name', 'LIKE', '%'.$str.'%');
+        return $this->builder
+            ->join('country_translations', 'country_translations.country_id', '=', 'countries.id')
+            ->select('countries.*', 'country_translations.name', 'country_translations.locale')
+            ->where('locale', 'uk')->where('name', 'LIKE', '%'.$str.'%');
     }
 }

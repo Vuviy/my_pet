@@ -29,6 +29,8 @@ class ProfessionController extends Controller
 
         $data = Profession::filter($filter)->get();
 
+//        dd($data);
+
         $professions = [];
 
         foreach ($data as $profession)
@@ -54,7 +56,7 @@ class ProfessionController extends Controller
 
             $professionArr = [];
             $professionArr['id'] = $profession->id;
-            $professionArr['name'] = $profession->translation->name;
+            $professionArr['name'] = $profession->name;
 //            $professionArr['category_id'] = $profession->category->name;
             $professionArr['category'] = !isset($profession->category->name) ? '---' : '<a href="category/'.$profession->category->id.'/edit'.'">'.$profession->category->name.'</a>';
 //            $professionArr['category'] = $profession->category->name;
@@ -120,6 +122,7 @@ class ProfessionController extends Controller
      */
     public function edit($id)
     {
+
 
 
         $model = Profession::findOrFail($id);

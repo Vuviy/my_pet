@@ -20,11 +20,10 @@ class BlogController extends Controller
 
 
 
-
 //        $pos = Post::all();
-//
-//
-//        $locales = ['uk', 'en'];
+
+
+//        $locales = ['en'];
 //        foreach ($locales as $loc)
 //        {
 //            foreach ($pos as $po)
@@ -36,9 +35,8 @@ class BlogController extends Controller
 //                    'short_text' => fake()->words(15, true),
 //                    'content' => fake()->text(300),
 //                ];
-//
-//                dd($rr);
-//
+
+
 //                $potr = new PostTranslation();
 //                $potr->fill([
 //                    'post_id' => $po->id,
@@ -46,6 +44,14 @@ class BlogController extends Controller
 //                    'title' => fake('uk_UA')->name . fake('uk_UA')->name,
 //                    'short_text' => fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name,
 //                    'content' => fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name . fake('uk_UA')->name,
+//                ])->save();
+
+//                $potr->fill([
+//                    'post_id' => $po->id,
+//                    'locale' => 'en',
+//                    'title' => fake('en_EN')->name,
+//                    'short_text' => fake()->text(25),
+//                    'content' => fake()->text(100),
 //                ])->save();
 //            }
 //        }

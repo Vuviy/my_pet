@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Country;
 use App\Models\Profession;
 use App\Models\Salary;
+use Database\Factories\PostFactory;
 use Database\Factories\PostTranslationFactory;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
 
+        PostFactory::new()->count(10)->create();
 //        Profession::factory(100)->create();
 
 //        Country::factory(7)->create();
@@ -34,6 +36,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
 
 //        $this->call(
 //            [

@@ -39,7 +39,7 @@
                 <input name="search" type="text" value="@if(isset($_GET['search']) && $_GET['search'] != ''){{$_GET['search']}}@endif">
             </div>
             <button class="btn btn-primary filter" type="submit">Застосувати</button>
-            <a href="{{route('country.index')}}"  class="btn btn-outline-success h-25 ml-5">Скинути</a>
+            <a href="{{route('category.index')}}"  class="btn btn-outline-success h-25 ml-5">Скинути</a>
         </div>
     </form>
 

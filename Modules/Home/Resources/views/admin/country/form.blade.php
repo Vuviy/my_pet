@@ -1,4 +1,15 @@
-
+@php
+    if(isset($model)){
+        if(isset($model->translate('en')->name)){
+            $countryName =  $model->translate('en')->name;
+            $countryNameArr = explode(' ', $countryName);
+            if (count($countryNameArr) > 1){
+                $countryName = implode('+', $countryNameArr);
+            }
+            $url = 'https://www.numbeo.com/cost-of-living/country_result.jsp?country='.$countryName.'&displayCurrency=USD';
+        }
+    }
+@endphp
 
 @extends('adminlte::page')
 
@@ -35,21 +46,39 @@
 
 {{--    @dd(isset($model->translate('en')->name) ?: 2)--}}
 
-    <form action="#" method="POST" class="container">
-        <div>
+
+
+<div class="d-flex justify-content-left">
+    <div class="w-50">
+        <form action="#" method="POST" class="container">
+        <div class="form-group">
             <label for="name_uk">Name [UK]</label>
             <input id="name_uk" name="name_uk" class="form-control" type="text" value="@if(isset($model)){{isset($model->translate('uk')->name) ? $model->translate('uk')->name : ''}}@endif">
         </div>
-        <div>
+        <div class="form-group">
             <label for="name_en">Name [EN]</label>
             <input id="name_en" name="name_en" class="form-control" type="text" value="@if(isset($model)){{isset($model->translate('en')->name) ? $model->translate('en')->name : ''}}@endif">
         </div>
-        <div>
-            <label for="status">Status</label>
-            <input id="status" name="status"  class="form-control" type="checkbox"
-                   @if(isset($model)){{$model->status ? 'checked' : ''}}@endif>
+{{--        <div>--}}
+{{--            <label for="status">Status</label>--}}
+{{--            <input id="status" name="status"  class="form-control" type="checkbox"--}}
+{{--                   @if(isset($model)){{$model->status ? 'checked' : ''}}@endif>--}}
 {{--                   @if(isset($model)){{isset($model->status) ? $model->status : 0}}@endif>--}}
-        </div>
+{{--        </div>--}}
+
+            <div class="form-group mt-3">
+                <div class="form-check">
+                    <input class="form-check-input" name="status" type="checkbox" id="gridCheck" @if(isset($model)){{$model->status ? 'checked' : ''}}@endif>
+                    <label class="form-check-label" for="gridCheck">
+                        Status
+                    </label>
+
+{{--                    <label class="form-check-label" for="status">Status</label>--}}
+{{--                    <input id="status" name="status"  class="form-check-input" type="checkbox"--}}
+{{--                    @if(isset($model)){{$model->status ? 'checked' : ''}}@endif>--}}
+                </div>
+            </div>
+
         @if($action != 'Creating')
         <div class="border border-primary p-3 m-3">
             <form action="#" class="cost_live_form">
@@ -65,7 +94,12 @@
                     <label for="square_meter">Meter</label>
                     <input id="square_meter" name="square_meter"  class="form-control" type="number" value="@if(isset($model)){{isset($model->square_meter) ? $model->square_meter : ''}}@endif">
                 </div>
-                <button class="cost_live_btn btn btn-dark mt-3" type="button">Load from site</button>
+                <div>
+                    <button class="cost_live_btn btn btn-dark mt-3" type="button">Load from site</button>
+                    @if(isset($url))
+                        <a class="ml-5 link" target="_blank" href="{{$url}}">numbeo.com</a>
+                    @endif
+                </div>
                 <div class="spinner-border" hidden role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -74,6 +108,12 @@
         @endif
 
     </form>
+    </div>
+    <div class="w-50 border">
+
+    </div>
+
+</div>
 
     <script>
         $('.btn-save').on('click', function (){

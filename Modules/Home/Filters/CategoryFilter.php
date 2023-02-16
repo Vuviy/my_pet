@@ -32,6 +32,9 @@ class CategoryFilter extends QueryFilter
         {
             return $this->builder;
         }
-        return $this->builder->join('category_translations', 'category_translations.category_id', '=', 'categories.id')->where('locale', 'uk')->where('name', 'LIKE', '%'.$str.'%');
+        return $this->builder
+            ->join('category_translations', 'category_translations.category_id', '=', 'categories.id')
+            ->select('categories.*', 'category_translations.name', 'category_translations.locale')
+            ->where('locale', 'uk')->where('name', 'LIKE', '%'.$str.'%');
     }
 }

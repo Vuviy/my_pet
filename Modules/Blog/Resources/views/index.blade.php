@@ -29,8 +29,8 @@
 
 
 
-        <div class="col-md-5">
-            {{$posts->links('vendor.pagination.bootstrap-5')}}
+        <div class="w-25 mx-auto">
+            {{$posts->withQueryString()->links('vendor.pagination.bootstrap-5')}}
 
         </div>
 @endsection

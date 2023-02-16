@@ -28,7 +28,10 @@ class ProfessionFilter extends QueryFilter
         {
             return $this->builder;
         }
-        return $this->builder->join('profession_translations', 'profession_translations.profession_id', '=', 'professions.id')->where('locale', 'uk')->where('name', 'LIKE', '%'.$str.'%');
+        return $this->builder
+            ->join('profession_translations', 'profession_translations.profession_id', '=', 'professions.id')->where('locale', 'uk')
+            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale')
+            ->where('name', 'LIKE', '%'.$str.'%');
     }
 
     public function category($category = '')
