@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Modules\Home\Filters\ProfessionIndexFilter;
 use Modules\Home\Models\Profession;
+use Modules\Home\Models\Salary;
 
 class ProfessionController extends Controller
 {
@@ -16,12 +18,17 @@ class ProfessionController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function professions(Request $request)
+    public function professions(ProfessionIndexFilter $filter)
     {
-        if ($request->has('profession') && $request->profession != ''){
-            return $this->professionsSearch($request);
-        }
-        return view('home::profession.professions');
+//        if ($request->has('profession') && $request->profession != ''){
+//            return $this->professionsSearch($request);
+//        }
+
+
+        $result = Profession::filter($filter)->published()->get();
+//        dd($result);
+
+        return view('home::profession.professions', compact('result'));
     }
 
     public function professionsSearch(Request $request)

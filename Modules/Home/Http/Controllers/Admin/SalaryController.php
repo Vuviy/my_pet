@@ -95,13 +95,16 @@ class SalaryController extends Controller
             'country_id' => $request->country,
         ];
 
-//        dd($data);
+
 
 
         $salary = new Salary();
 
         $salary->fill($data)->save();
 
+        if($request->amount){
+            $this->calculateIndex($salary->id, $request->amount);
+        }
         return $salary->id;
     }
 
@@ -156,19 +159,18 @@ class SalaryController extends Controller
     public function update(Request $request, $id)
     {
 
-
-
         $data = [
             'amount' => $request->amount,
             'status' => $request->status ? 1 : 0,
             'profession_id' => $request->profession,
             'country_id' => $request->country,
         ];
-//        dd($data);
-
-//        dd($data);
 
         $salary = Salary::findOrFail($id);
+
+        if($salary->amount){
+            $this->calculateIndex($id, $request->amount);
+        }
 
         $salary->update($data);
 
@@ -197,5 +199,43 @@ class SalaryController extends Controller
         $model->save();
 
         return $model->id;
+    }
+
+    public function calculateIndex($id, $amount = 0)
+    {
+
+        $model = Salary::findOrFail($id);
+        $country = Country::findOrFail($model->country_id);
+
+        $cost_live = $country->cost_live;
+        $rent = $country->rent;
+        $square_meter = $country->square_meter;
+
+        if(!$model->amount){
+            $error = ['error' => 'Hevent amount'];
+            return json_encode($error);
+        }
+        if(!$cost_live || !$rent || !$square_meter){
+            $error = ['error' => 'Hevent cost live parameters'];
+            return json_encode($error);
+        }
+
+        $amountVal = $model->amount;
+        if($amount > 0){
+            $amountVal = $amount;
+        }
+
+        $respect_index = round($amountVal/($cost_live + $rent + $square_meter), 3);
+
+//        dump($model->amount);
+//        dump($cost_live);
+//        dump($rent);
+//        dump($square_meter);
+//        dd($respect_index);
+
+      $model->respect_index = $respect_index;
+      $model->save();
+
+        return $model->respect_index;
     }
 }

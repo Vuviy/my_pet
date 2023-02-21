@@ -9,7 +9,7 @@
         <div>
             <h2 class="action" data="{{$action}}">{{$action}}</h2>
         </div>
-        <p class="btn btn-success">Save</p>
+        <p class="save btn btn-success">Save</p>
     </div>
 @stop
 
@@ -95,10 +95,11 @@
 
             @if(isset($model))
                     @if($model->respect_index)
-                        <h3 class="h3">{{$model->respect_index}}</h3>
+                        <h3 class="resp_index h3">{{$model->respect_index}}</h3>
                     @else
-                    <h3 class="h3">Не визначено</h3>
+                    <h3 class="havent_index h3">Не визначено</h3>
                     @endif
+                    <h3 class="resp_index_hiden h3" hidden="hidden"></h3>
             @endif
 {{--            <input id="respect_index" name="respect_index"  class="form-control" type="number"--}}
 {{--                   value="@if(isset($model))--}}
@@ -106,14 +107,14 @@
 {{--                                    {{$model->respect_index}}--}}
 {{--                                @endif--}}
 {{--                            @endif">--}}
-            <button  class="calculate_index btn btn-dark mt-3">Розрахувати</button>
+            <p class="calculate_index btn btn-dark mt-3">Розрахувати</p>
         </div>
 
 
     </form>
 
     <script>
-        $('.btn').on('click', function (){
+        $('.save').on('click', function (){
             if($('.action').attr('data') == 'Edit')
             {
                 $.ajax({
@@ -144,6 +145,45 @@
                 });
             }
         });
+
+        $('.calculate_index').on('click', function (){
+
+
+
+            $.ajax({
+                method: "POST",
+{{--                url: "{{route('calculateIndex')}}",--}}
+                url:  "{{ str_replace('/edit', '/respect_index', $_SERVER['REQUEST_URI'])}}",
+
+                data: "{{isset($model->id) ? $model->id : ''}}",
+            }).done(function (msg){
+                let obj = jQuery.parseJSON(msg);
+                if(obj.error)
+                {
+                    console.log(obj.error);
+                    // $(location).prop('href',"/my_pet/public/admin/salary/" + msg + "/edit");
+                } else{
+                    console.log('esle ---');
+
+                    if($('.resp_index').text()){
+                        console.log($('.resp_index').text());
+                        console.log('resp_index exist');
+
+                        $('.resp_index').text(msg);
+                    } else{
+                        console.log('resp_index exist і ми показуємо респ хіден');
+
+                        $('.resp_index_hiden').attr('hidden', false).text(msg);
+                    }
+                    console.log('end now havent_index hide');
+
+                    $('.havent_index').attr('hidden', true);
+                }
+            });
+        })
+
+
+        //calculate_index
     </script>
 
 

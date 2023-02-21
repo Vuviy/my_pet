@@ -24,11 +24,16 @@ class Profession extends Model implements TranslatableContract
 
     public function salaries()
     {
-        return $this->hasMany(Salary::class);
+        return $this->hasMany(Salary::class)->where('status', 1);
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)
     {
         return $filter->apply($builder);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', 1);
     }
 }

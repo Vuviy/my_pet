@@ -19,7 +19,10 @@ return [
     'Enter' => 'Перейти',
     'Professions index' => 'Індекс професій',
     'Profession' => 'Професія',
+    'Professions' => 'Професії',
     'Enter profession' => 'Введіть професію',
+    'Enter country' => 'Введіть Країну',
+    'Info about countries' => 'Інформація про країни',
     'Profession index desc' => 'Опис індексу професій',
     'Countries index desc' => 'Опис індексу країн',
     'Indexes desc' => 'Опис індексу',
@@ -30,7 +33,18 @@ return [
     'Salary' => 'Оплата',
     'Index of profession' => 'Індекс поваги професії',
     'search' => 'Пошук',
+    'Cost of live' => 'Вартість проживання',
+    'Rent' => 'Оренда житла',
+    'All' => 'Всього',
+    'Square meter' => 'Вартість 1 м квадратного',
+    'Top 5 The most respected professions' => 'Топ 5 професій яких найбільше поважать',
+    'Live and rent' => 'Життя і оренда',
 
 
 
-    ];
+
+
+
+
+
+];

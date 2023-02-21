@@ -24,11 +24,12 @@ Route::group(
     Route::get('/professions', [\Modules\Home\Http\Controllers\ProfessionController::class, 'professions'])->name('professions');
 //    Route::get('/professions/search/{profession}', [\Modules\Home\Http\Controllers\ProfessionController::class, 'professionsSearch'])->name('professionsSearch');
 
-    Route::get('/autocomplete-search', [\Modules\Home\Http\Controllers\ProfessionController::class, 'autocompleteSearch'])->name('autocomplete-search');
+    Route::get('/autocomplete-search-profession', [\Modules\Home\Http\Controllers\ProfessionController::class, 'autocompleteSearch'])->name('autocomplete-search-profession');
 
+    Route::get('/countries', [\Modules\Home\Http\Controllers\CountryInfoController::class, 'index'])->name('countries');
+    Route::get('/autocomplete-search-country', [\Modules\Home\Http\Controllers\CountryInfoController::class, 'autocompleteSearch'])->name('autocomplete-search-country');
 
-    Route::get('/countries', [\Modules\Home\Http\Controllers\ProfessionController::class, 'countries'])->name('countries');
-    Route::get('/indexes', [\Modules\Home\Http\Controllers\ProfessionController::class, 'indexes'])->name('indexes');
+    Route::get('/indexes', [\Modules\Home\Http\Controllers\IndexController::class, 'index'])->name('indexes');
 
 });
 
@@ -57,6 +58,7 @@ Route::group(
 
     Route::resource('/salary', \Modules\Home\Http\Controllers\Admin\SalaryController::class);
     Route::post('/salary/status/{id}', [\Modules\Home\Http\Controllers\Admin\SalaryController::class, 'changeStatus'])->name('salaryChangeStatus');
+    Route::post('/salary/{id}/respect_index', [\Modules\Home\Http\Controllers\Admin\SalaryController::class, 'calculateIndex'])->name('calculateIndex');
 
     Route::resource('/category', \Modules\Home\Http\Controllers\Admin\CategoryController::class);
     Route::post('/category/status/{id}', [\Modules\Home\Http\Controllers\Admin\CategoryController::class, 'changeStatus'])->name('categoryChangeStatus');
