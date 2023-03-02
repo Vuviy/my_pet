@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Professions')
 
 @section('content_header')
     <a href="{{route('professions.create')}}" class="btn btn-success">Add</a>

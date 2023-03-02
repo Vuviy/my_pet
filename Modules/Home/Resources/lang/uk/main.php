@@ -20,6 +20,7 @@ return [
     'Professions index' => 'Індекс професій',
     'Profession' => 'Професія',
     'Professions' => 'Професії',
+    'professions' => 'професій',
     'Enter profession' => 'Введіть професію',
     'Enter country' => 'Введіть Країну',
     'Info about countries' => 'Інформація про країни',
@@ -39,6 +40,20 @@ return [
     'Square meter' => 'Вартість 1 м квадратного',
     'Top 5 The most respected professions' => 'Топ 5 професій яких найбільше поважать',
     'Live and rent' => 'Життя і оренда',
+    'Average respect index:' => 'Середнє значчення індексу поваги:',
+    'Median of respect index:' => 'Медіана індексу поваги:',
+    'Sum of all indexes' => 'Сума індексів поваги:',
+    'Top 5 countries by median of respect index' => 'Топ 5 країн за медіаною індексу поваги',
+    'Based by' => 'Опираючись на дані',
+    'Sum of all indexes:' => 'Сума всіх індексів:',
+    'Compare countries' => 'Порівняння країн',
+    'Compare professions' => 'Порівняння професій',
+
+
+
+
+
+
 
 
 

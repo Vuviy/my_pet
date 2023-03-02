@@ -4,27 +4,29 @@
 
 @php
 
-    $min = $model[0]->min_rent + $model[0]->min_cost_live;
-    $max = $model[0]->max_rent + $model[0]->max_cost_live;
+    if(isset($model)){
+         $min = $model[0]->min_rent + $model[0]->min_cost_live;
+         $max = $model[0]->max_rent + $model[0]->max_cost_live;
 
-    $minAll = $model[0]->min_rent + $model[0]->min_cost_live + $model[0]->min_square_meter;
-    $maxAll = $model[0]->max_rent + $model[0]->max_cost_live + $model[0]->max_square_meter;
+         $minAll = $model[0]->min_rent + $model[0]->min_cost_live + $model[0]->min_square_meter;
+         $maxAll = $model[0]->max_rent + $model[0]->max_cost_live + $model[0]->max_square_meter;
 
-    $stepAll = ($maxAll - $minAll)/3;
-    $colorCountryAll = 'text-danger';
-    if($model[0]->cost_live + $model[0]->rent + $model[0]->square_meter < ($stepAll + $minAll)){
-       $colorCountryAll = 'text-success';
-    } else if($model[0]->cost_live + $model[0]->rent + $model[0]->square_meter < ((2*$stepAll) + $minAll)){
-       $colorCountryAll = 'text-warning';
-    }
+         $stepAll = ($maxAll - $minAll)/3;
+         $colorCountryAll = 'text-danger';
+         if($model[0]->cost_live + $model[0]->rent + $model[0]->square_meter < ($stepAll + $minAll)){
+            $colorCountryAll = 'text-success';
+         } else if($model[0]->cost_live + $model[0]->rent + $model[0]->square_meter < ((2*$stepAll) + $minAll)){
+            $colorCountryAll = 'text-warning';
+         }
 
-    $step = ($max - $min)/3;
-    $colorCountry = 'text-danger';
-    if($model[0]->cost_live + $model[0]->rent < ($step + $min)){
-       $colorCountry = 'text-success';
-    } else if($model[0]->cost_live + $model[0]->rent < ((2*$step) + $min)){
-       $colorCountry = 'text-warning';
-    }
+         $step = ($max - $min)/3;
+         $colorCountry = 'text-danger';
+         if($model[0]->cost_live + $model[0]->rent < ($step + $min)){
+            $colorCountry = 'text-success';
+         } else if($model[0]->cost_live + $model[0]->rent < ((2*$step) + $min)){
+            $colorCountry = 'text-warning';
+         }
+     }
 
 @endphp
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -42,7 +44,7 @@
                         {{--                    @csrf--}}
                         <div class="col-auto w-50">
                             <label for="search" class="visually-hidden">{{__('home::main.Enter country')}}</label>
-                            <input name="search" type="text" class="form-control" id="country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['search'])){{$_GET['search'] != ''?$_GET['search']:''}}@endif">
+                            <input name="search" type="text" class="form-control country" id="country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['search'])){{$_GET['search'] != ''?$_GET['search']:''}}@endif">
                         </div>
                         {{--                    <div class="col-auto">--}}
                         {{--                        <label for="country" class="visually-hidden">{{__('home::main.Enter country')}}</label>--}}
@@ -169,6 +171,108 @@
                         @endif
                     @endif
                 </div>
+
+                <div class="mt-5">
+                    <form class="row g-2" method="GET">
+                    <h2>{{__('home::main.Compare countries')}}</h2>
+                    <div class="mt-3 d-flex flex-row bd-highlight mb-3 w-100 justify-content-around">
+                        <div class="col-auto m-3" style="width: 40%">
+                            <h3 class="mb-3">Оберіть країну для прівняння</h3>
+                            <label for="compare" class="visually-hidden">{{__('home::main.Enter country')}}</label>
+                            <input name="compare" type="text" class="form-control country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['compare'])){{$_GET['compare'] != ''?$_GET['compare']:''}}@endif">
+                        </div>
+                        <div class="col-auto m-3" style="width: 40%">
+                            <h3 class="mb-3">Оберіть країну з якою буде порівняння</h3>
+                            <label for="compare_with" class="visually-hidden">{{__('home::main.Enter country')}}</label>
+                            <input name="compare_with" type="text" class="form-control country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['compare_with'])){{$_GET['compare_with'] != ''?$_GET['compare_with']:''}}@endif">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mb-3" id="compare">Compare</button>
+                    </form>
+                    @if(isset($data))
+                        <div class="mt-3 d-flex flex-row bd-highlight mb-3 w-100 justify-content-between">
+                            @foreach($data['countries'] as $country)
+
+                                <div class="col-auto m-3" style="width: 38%">
+                                    <h3 class="mb-3">{{$country[0]->translate(app()->getLocale())->name}}</h3>
+                                    <div class="mt-3 border-dark border">
+                                        <div class="p-3">
+                                            <h3 class="p-3">Cost live</h3>
+                                            <hr>
+                                            <p>Cost live: {{$country[0]->cost_live}}</p>
+                                            <p>Rent: {{$country[0]->rent}}</p>
+                                            <p>Square meter: {{$country[0]->square_meter}}</p>
+                                        </div>
+                                        <div class="p-3">
+                                            <h3 class="p-3">Salaries</h3>
+                                            <hr>
+                                                @foreach($data['professions'] as $id)
+                                                        @if(in_array($id, array_keys($country[1])))
+                                                            <p class="h-25">{{($country[1][$id])->profession->translate(app()->getLocale())->name . ' -- '. ($country[1][$id])->amount. ' | index: '. ($country[1][$id])->respect_index}}</p>
+                                                        @else
+                                                            <p>---</p>
+                                                        @endif
+                                                @endforeach
+                                            <hr>
+                                            <p>Median: {{$country[0]->median}}</p>
+                                            <p>Average: {{$country[0]->average}}</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            @endforeach
+                                <div class="col-auto m-3" style="width: 20%">
+                                    <h3 class="mb-3">{{'compare'}}</h3>
+                                    <div class="mt-3 border-dark border">
+                                        <div class="p-3">
+                                            <h3 class="p-3">Cost live</h3>
+                                            <hr>
+                                            @php
+                                                $cost = ($data['countries']['compare'][0])->cost_live - ($data['countries']['compare_with'][0])->cost_live;
+                                                $rent = ($data['countries']['compare'][0])->rent - ($data['countries']['compare_with'][0])->rent;
+                                                $square_meter = ($data['countries']['compare'][0])->square_meter - ($data['countries']['compare_with'][0])->square_meter;
+                                                $cost_procent = round(abs(((($data['countries']['compare'][0])->cost_live - ($data['countries']['compare_with'][0])->cost_live)/($data['countries']['compare_with'][0])->cost_live))*100, 2);
+                                                $rent_procent = round(abs(((($data['countries']['compare'][0])->rent - ($data['countries']['compare_with'][0])->rent)/($data['countries']['compare_with'][0])->rent))*100, 2);
+                                                $square_meter_procent = round(abs(((($data['countries']['compare'][0])->square_meter - ($data['countries']['compare_with'][0])->square_meter)/($data['countries']['compare_with'][0])->square_meter))*100, 2);
+                                            @endphp
+
+                                            <p>Cost live: <span class="{{$cost > 0 ? 'text-danger' : 'text-success'}}">{{$cost.'  --  '. $cost_procent.'%'}}</span></p>
+                                            <p>Rent: <span class="{{$rent > 0 ? 'text-danger' : 'text-success'}}">{{$rent.' -- '. $rent_procent.'%'}}</span></p>
+                                            <p>Square meter: <span class="{{$square_meter > 0 ? 'text-danger' : 'text-success'}}">{{$square_meter.' -- '. $square_meter_procent.'%'}}</span></p>
+                                        </div>
+                                        <div class="p-3">
+                                            <h3 class="p-3">Salaries</h3>
+                                            <hr>
+
+                                            @foreach($data['professions'] as $id)
+                                                @if(in_array($id, array_keys($data['countries']['compare'][1])) && in_array($id, array_keys($data['countries']['compare_with'][1])))
+
+                                                    @php
+                                                        $salary = ($data['countries']['compare'][1][$id])->amount - ($data['countries']['compare_with'][1][$id])->amount;
+                                                        $index = ($data['countries']['compare'][1][$id])->respect_index - ($data['countries']['compare_with'][1][$id])->respect_index;
+                                                    @endphp
+
+                                                    <p> <span class="{{$salary > 0 ? 'text-success' : 'text-danger'}}">{{$salary}}</span>  index: <span class="{{$index > 0 ? 'text-success' : 'text-danger'}}">{{$index}}</span></p>
+                                                @else
+                                                    <p>---</p>
+                                                @endif
+                                            @endforeach
+                                            <hr>
+                                            @php
+                                                $median = $data['countries']['compare'][0]->median - $data['countries']['compare_with'][0]->median;
+                                                $average = $data['countries']['compare'][0]->average - $data['countries']['compare_with'][0]->average;
+                                            @endphp
+                                                <p>Median: <span class="{{$median > 0 ? 'text-success' : 'text-danger'}}">{{$median}}</span></p>
+                                                <p>Average: <span class="{{$average > 0 ? 'text-success' : 'text-danger'}}">{{$average}}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    @endif
+
+                </div>
+
             </div>
     </main>
 
@@ -176,7 +280,7 @@
 
         <script type="text/javascript">
             var route = "{{ route('autocomplete-search-country') }}";
-            $('#country').typeahead({
+            $('.country').typeahead({
                 source: function (query, process) {
                     return $.get(route, {
                         query: query

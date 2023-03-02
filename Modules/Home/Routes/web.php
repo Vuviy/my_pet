@@ -21,7 +21,7 @@ Route::group(
 
     Route::get('/', 'HomeController@index')->name('home');
 
-    Route::get('/professions', [\Modules\Home\Http\Controllers\ProfessionController::class, 'professions'])->name('professions');
+    Route::get('/professions', [\Modules\Home\Http\Controllers\ProfessionController::class, 'index'])->name('professions');
 //    Route::get('/professions/search/{profession}', [\Modules\Home\Http\Controllers\ProfessionController::class, 'professionsSearch'])->name('professionsSearch');
 
     Route::get('/autocomplete-search-profession', [\Modules\Home\Http\Controllers\ProfessionController::class, 'autocompleteSearch'])->name('autocomplete-search-profession');
@@ -45,7 +45,11 @@ Route::group(
 
     Route::resource('/country', \Modules\Home\Http\Controllers\Admin\CountryController::class);
     Route::post('/country/{id}/load_cost_live', [\Modules\Home\Http\Controllers\Admin\CountryController::class, 'loadCostLive'])->name('loadCostLive');
+    Route::post('/country/{id}/median', [\Modules\Home\Http\Controllers\Admin\CountryController::class, 'median'])->name('median');
+    Route::post('/country/{id}/average', [\Modules\Home\Http\Controllers\Admin\CountryController::class, 'average'])->name('average');
     Route::post('/country/status/{id}', [\Modules\Home\Http\Controllers\Admin\CountryController::class, 'changeStatus'])->name('countryChangeStatus');
+    Route::post('/country/culc_all_median', [\Modules\Home\Http\Controllers\Admin\CountryController::class, 'culcAllMedian'])->name('culcAllMedian');
+    Route::post('/country/culc_all_average', [\Modules\Home\Http\Controllers\Admin\CountryController::class, 'culcAllAverage'])->name('culcAllAverage');
 
 
     Route::resource('/professions', \Modules\Home\Http\Controllers\Admin\ProfessionController::class);

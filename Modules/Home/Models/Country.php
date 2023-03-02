@@ -17,11 +17,16 @@ class Country extends Model implements TranslatableContract
 
     public $translatedAttributes = ['name'];
 
-    protected $fillable = ['status', 'cost_live', 'rent', 'square_meter'];
+    protected $fillable = ['status', 'cost_live', 'rent', 'square_meter', 'median', 'average'];
 
     public function salaries()
     {
-        return $this->hasMany(Salary::class)->where('status', 1);
+        return $this->hasMany(Salary::class)->where('status', 1)->orderBy('respect_index', 'DESC');
+    }
+
+    public function salariesForCompareCountry()
+    {
+        return $this->hasMany(Salary::class)->where('status', 1)->orderBy('profession_id', 'ASC');
     }
     public function salariesOrderByIndex()
     {

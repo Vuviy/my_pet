@@ -9,6 +9,7 @@ use Modules\Home\Models\Salary;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use PhpParser\Node\Stmt\Echo_;
 use function view;
 
 class SalaryController extends Controller
@@ -20,6 +21,16 @@ class SalaryController extends Controller
     public function index(SalaryFilter $filter)
     {
 
+
+//        return view('home::admin.test');
+//        $this->ccc();
+
+//        $sal = Salary::all();
+//
+//        foreach ($sal as $sss){
+//            $this->calculateIndex($sss->id);
+//        }
+//        dd('good');
         $heads = [
             'ID',
             'Amount',
@@ -225,7 +236,7 @@ class SalaryController extends Controller
             $amountVal = $amount;
         }
 
-        $respect_index = round($amountVal/($cost_live + $rent + $square_meter), 3);
+        $respect_index = round($amountVal/($cost_live + $rent + (0.3*$square_meter)), 3);
 
 //        dump($model->amount);
 //        dump($cost_live);
@@ -237,5 +248,76 @@ class SalaryController extends Controller
       $model->save();
 
         return $model->respect_index;
+    }
+
+    public function ccc()
+    {
+        $sum =400;
+        $mon =0;
+        $mon_lost =0;
+        $dayys =30;
+        $lost_day = 9;
+        $i =1;
+        $i2 =1;
+        $procent = 0.1;
+
+        while ($i <= ($dayys-$lost_day))
+        {
+            $i++;
+            $mon+= $procent*$sum;
+        }
+        while ($i2 <= $lost_day)
+        {
+            $i2++;
+            $mon_lost+= 0.2*$sum;
+        }
+
+
+//        dump($mon);
+//        echo '-------';
+//        echo '<br>';
+//        dump($mon_lost);
+        echo '-------';
+//        echo '<br>';
+//
+//        echo $mon;
+
+        echo '<br>';
+        echo $mon-$mon_lost;
+        echo '<br>';
+
+        echo '-------';
+        echo '<br>';
+
+//        $start = 500;
+        $start = 40;//main
+//        $start = 17.47;
+        $finish = 400;
+        $days = 1;
+        $date = date('d', '1677075133');
+        $date_now = date('d');
+
+        $d = $date_now - $date;
+
+//        dd($d);
+        $class = '';
+
+
+        while ($start <= $finish)
+        {
+            if($days <= $d){
+                $class = 'style="color:green;"';
+            } else{
+                $class = '';
+            }
+            echo '<p '.$class.'>money on '.$days .' day is - '. round($start, 2). ' | on day: '. round($start*$procent, 2).'</p>';
+//            echo '<br>';
+
+            $start+=($start*$procent);
+            $days++;
+        }
+        echo '<p'.$class.'>all days need '.$days .' day is - '. round($start, 2). ' | on day: '. round($start*$procent, 2).'</p>';
+        echo '<br>';
+        dd(2);
     }
 }

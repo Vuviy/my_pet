@@ -25,7 +25,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 //
 //});
 
-//    Route::get('/sraka', [\App\Http\Controllers\HomeController::class, 'index']);
+    Route::get('/rozklad', function (){
+        return view('rozklad');
+    });
 
 
 Auth::routes();

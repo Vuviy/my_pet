@@ -2,10 +2,12 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Country')
 
 @section('content_header')
     <a href="{{route('country.create')}}" class="btn btn-success">Add</a>
+    <button name="culcMedian" class="btn btn-info">Розрахувати всі медіани</button>
+    <button name="culcAverage" class="btn btn-info">Розрахувати всі average</button>
 @stop
 
 @section('content')
@@ -108,6 +110,29 @@
             })
         });
 
+
+
+
+
+        $('button[name="culcMedian"]').on('click', function (){
+            $.ajax({
+                method: "POST",
+                url: "{{route('culcAllMedian')}}",
+            })
+            .done(function (msg){
+                alert(msg)
+            })
+        });
+
+        $('button[name="culcAverage"]').on('click', function (){
+            $.ajax({
+                method: "POST",
+                url: "{{route('culcAllAverage')}}",
+            })
+            .done(function (msg){
+                alert(msg)
+            })
+        });
 
         // $('.filter').on('click', function (){
         //

@@ -13,7 +13,7 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Country')
 
 @section('content_header')
     <div style="display: flex; justify-content: space-around">
@@ -100,7 +100,7 @@
                         <a class="ml-5 link" target="_blank" href="{{$url}}">numbeo.com</a>
                     @endif
                 </div>
-                <div class="spinner-border" hidden role="status">
+                <div class="spinner-border border-cost" hidden role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </form>
@@ -111,6 +111,24 @@
     </div>
     <div class="w-50 border">
 
+        <div>
+            <div class="m-3">
+                <p class="" style="font-size: 30px;">Median: <span class="median">@if(isset($model)){{isset($model->median) ? $model->median : ''}}@endif</span></p>
+            </div>
+            <button class="median-btn m-3 btn btn-info">Розрахувати медіану</button>
+                <div class="spinner-border border-median mt-3 ml-5" role="status" hidden>
+                    <span class="sr-only">Loading...</span>
+                </div>
+        </div>
+        <div>
+            <div class="m-3">
+                <p class="" style="font-size: 30px;">Average: <span class="average">@if(isset($model)){{isset($model->average) ? $model->average : ''}}@endif</span></p>
+            </div>
+            <button class="average-btn m-3 btn btn-info">Розрахувати average</button>
+                <div class="spinner-border border-average mt-3 ml-5" role="status" hidden>
+                    <span class="sr-only">Loading...</span>
+                </div>
+        </div>
     </div>
 
 </div>
@@ -156,12 +174,12 @@
                     url:  "{{ str_replace('/edit', "/load_cost_live", $_SERVER['REQUEST_URI'])}}",
                     data: $('.cost_live_form').serialize(),
                     beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('.spinner-border').removeAttr('hidden');
+                        $('.border-cost').removeAttr('hidden');
                         $('.cost_live_btn').attr({hidden: true});
                     },
                     complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                         $('.cost_live_btn').removeAttr('hidden');
-                        $('.spinner-border').attr({hidden: true});
+                        $('.border-cost').attr({hidden: true});
                     },
                 }).done(function (msg){
 
@@ -183,6 +201,61 @@
                 {{--console.log("{{ $model->translate('en')->name }}");--}}
             } else{
                 alert('Country name by en not exist');
+            }
+        })
+
+        $('.median-btn').on('click', function (){
+            // console.log('ajax reload costs of live fron site');
+            if("{{ isset($model)}}"){
+                $.ajax({
+                    method: "POST",
+                    url:  "{{ str_replace('/edit', "/median", $_SERVER['REQUEST_URI'])}}",
+                    data: "{{isset($model->id) ? $model->id : ''}}",
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        $('.border-median').removeAttr('hidden');
+                        $('.median-btn').attr({hidden: true});
+                    },
+                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                        $('.median-btn').removeAttr('hidden');
+                        $('.border-median').attr({hidden: true});
+                    },
+                }).done(function (msg){
+                    if(!msg.error){
+                            $('.median').text(msg);
+                        }
+                    else{
+                        alert("Error: "+ msg.error);
+                    }
+                })
+            } else{
+                alert('Country not exist');
+            }
+        })
+
+        $('.average-btn').on('click', function (){
+            if("{{ isset($model)}}"){
+                $.ajax({
+                    method: "POST",
+                    url:  "{{ str_replace('/edit', "/average", $_SERVER['REQUEST_URI'])}}",
+                    data: "{{isset($model->id) ? $model->id : ''}}",
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        $('.border-average').removeAttr('hidden');
+                        $('.average-btn').attr({hidden: true});
+                    },
+                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                        $('.average-btn').removeAttr('hidden');
+                        $('.border-average').attr({hidden: true});
+                    },
+                }).done(function (msg){
+                    if(!msg.error){
+                            $('.average').text(msg);
+                        }
+                    else{
+                        alert("Error: "+ msg.error);
+                    }
+                })
+            } else{
+                alert('Country not exist');
             }
         })
     </script>

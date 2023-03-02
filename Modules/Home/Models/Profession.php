@@ -24,7 +24,7 @@ class Profession extends Model implements TranslatableContract
 
     public function salaries()
     {
-        return $this->hasMany(Salary::class)->where('status', 1);
+        return $this->hasMany(Salary::class)->where('status', 1)->orderBy('respect_index', 'DESC');
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)

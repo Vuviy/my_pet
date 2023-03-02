@@ -2,7 +2,7 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Salary')
 
 @section('content_header')
     <div style="display: flex; justify-content: space-around">

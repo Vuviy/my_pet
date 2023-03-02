@@ -2,7 +2,7 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Category')
 
 @section('content_header')
     <div>
