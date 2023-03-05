@@ -48,4 +48,7 @@ return [
     'Average respect index:' => 'Average respect index:',
     'Live and rent' => 'Live and rent',
     'Top 5 The most respected professions' => 'Top 5 The most respected professions',
+    'Enter your salary' => 'Enter your salary',
+    'Calculate' => 'Calculate',
+    'Median' => 'Median',
 ];

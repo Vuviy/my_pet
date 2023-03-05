@@ -6,6 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js">
     </script>
 
+
     <main>
         <div class="container">
 
@@ -18,7 +19,19 @@
 {{--                    @csrf--}}
                     <div class="col-auto w-50">
                         <label for="search" class="visually-hidden">{{__('home::main.Enter profession')}}</label>
-                        <input name="search" type="text" class="form-control profession" id="profession" placeholder="{{__('home::main.Profession')}}" value="@if(isset($_GET['search'])){{$_GET['search'] != ''?$_GET['search']:''}}@endif">
+
+{{--                        @dd($result)--}}
+
+{{--                        @dd($result)--}}
+                        <select name="search" class="form-select">
+                            <option selected value="0">{{__('home::main.Profession')}}</option>
+
+                            @foreach($profs as $pro)
+                                <option @if(count($result) == 1 && $pro->id == $result[0]->id) selected @endif value="{{$pro->id}}">{{$pro->translate(app()->getLocale())->name}}</option>
+                            @endforeach
+                        </select>
+
+{{--                        <input name="search" type="text" class="form-control profession" id="profession" placeholder="{{__('home::main.Profession')}}" value="@if(isset($_GET['search'])){{$_GET['search'] != ''?$_GET['search']:''}}@endif">--}}
                     </div>
 {{--                    <div class="col-auto">--}}
 {{--                        <label for="country" class="visually-hidden">{{__('home::main.Enter country')}}</label>--}}
@@ -29,12 +42,129 @@
                     </div>
                 </form>
             </div>
+            <div class="mt-5">
+                <h3>Ви можите скористатись калькулятором і дізнатись індин для своїє професії та який індекс був би в інших країнах</h3>
+                <form class="row g-2 d-flex justify-content-center bg-dark bg-opacity-25 mt-3" method="GET">
+                  <div class="p-3" style="width: 50%">
+
+
+                    <div class="col-auto mb-5">
+                        <label for="amount" class="visually-hidden">{{__('home::main.Enter your salary')}}</label>
+                        <input name="amount" type="number" class="form-control salary" id="salary" placeholder="{{__('home::main.Salary')}}" value="@if(isset($_GET['amount'])){{$_GET['amount'] != ''?$_GET['amount']:''}}@endif">
+                    </div>
+                    <div class="col-auto mb-5">
+                        <label for="country" class="visually-hidden">{{__('home::main.Country')}}</label>
+                        <select name="country" class="form-select">
+                            <option selected value="0">{{__('home::main.Country')}}</option>
+                        @foreach($countries as $country)
+                                <option @if(isset($culc_res['current_country']) && $country->id == $culc_res['current_country']->id) selected @endif value="{{$country->id}}">{{$country->translate(app()->getLocale())->name}}</option>
+                            @endforeach
+                        </select>
+
+{{--                        <input name="country" type="text" class="form-control country" id="country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['country'])){{$_GET['country'] != ''?$_GET['country']:''}}@endif">--}}
+                    </div>
+                    <div class="col-auto d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary mb-3 w-50">{{__('home::main.Calculate')}}</button>
+                    </div>
+                  </div>
+                </form>
+            </div>
+            @if(isset($culc_res))
+                <div class="mt-3">
+                    <div class="mt-3 d-flex justify-content-center">
+                        <h2>Індекс вашою зарплатні в країні: "{{$culc_res['current_country']->translate(app()->getLocale())->name}}" становить - {{$culc_res['index']}}</h2>
+                    </div>
+
+                    @if(count($culc_res['same']))
+                        <div class="mt-3 d-flex justify-content-center">
+                            <div class="mt-3 w-50">
+                            <h2>Країни за схожим індексом:</h2>
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">{{__('home::main.Country')}}</th>
+                                    <th scope="col">{{__('home::main.Index')}}</th>
+                                    <th scope="col">{{__('home::main.Median')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                @foreach($culc_res['same'] as $item)
+                                    <tr>
+                                        <td>{{$item['country']->translate(app()->getLocale())->name}}</td>
+                                        <td>{{$item['index']}}</td>
+                                        <td>{{$item['country']->median}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    @endif
+                    @if(count($culc_res['best']))
+                        <div class="mt-3 d-flex justify-content-center">
+                            <div class="mt-3">
+                        <h2>Країни за найвищим індексом для вашою зп:</h2>
+                            <p>Тобто там де вам буде найкраще</p>
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">{{__('home::main.Country')}}</th>
+                                    <th scope="col">{{__('home::main.Index')}}</th>
+                                    <th scope="col">{{__('home::main.Median')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                @foreach($culc_res['best'] as $item)
+                                    <tr>
+                                        <td>{{$item['country']->translate(app()->getLocale())->name}}</td>
+                                        <td>{{$item['index']}}</td>
+                                        <td>{{$item['country']->median}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    @endif
+
+                    @if(count($culc_res['worst']))
+                        <div class="mt-3 d-flex justify-content-center">
+                            <div class="mt-3">
+                        <h2>Країни за найнижчим індексом для вашою зп:</h2>
+                        <p>Тобто там де вам буде найгірше</p>
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">{{__('home::main.Country')}}</th>
+                                    <th scope="col">{{__('home::main.Index')}}</th>
+                                    <th scope="col">{{__('home::main.Median')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                @foreach($culc_res['worst'] as $item)
+                                    <tr>
+                                        <td>{{$item['country']->translate(app()->getLocale())->name}}</td>
+                                        <td>{{$item['index']}}</td>
+                                        <td>{{$item['country']->median}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    @endif
+
+
+                </div>
+            @endif
             @if(isset($result))
                 <div class="mt-3">
                     @if(!count($result))
                         <h3>Нічого не знайдено</h3>
-                    @elseif(count($result) > 1)
-                    @else
+                    @elseif(count($result) == 1)
                         <h2 class="h2">{{$result[0]->translate(app()->getLocale())->name}}</h2>
                         <div class="mt-5">
                             <table class="table">
@@ -61,12 +191,12 @@
                 </div>
                 @endif
 
-            <div class="mt-5 compareccc">
-                <form class="row g-2 yyy" method="GET">
+            <div class="mt-5">
+                <form class="row g-2" method="GET">
                     <h2>{{__('home::main.Compare professions')}}</h2>
                     <div class="mt-3 d-flex flex-row bd-highlight mb-3 w-100 justify-content-around">
                         <div class="col-auto m-3" style="width: 40%">
-                            <h3 class="mb-3">Оберіть професію для прівняння</h3>
+                            <h3 class="mb-3 mb-5">Оберіть професію для прівняння</h3>
                             <label for="compare" class="visually-hidden">{{__('home::main.Enter profession')}}</label>
                             <input name="compare" type="text" class="form-control profession" placeholder="{{__('home::main.Profession')}}" value="@if(isset($_GET['compare'])){{$_GET['compare'] != ''?$_GET['compare']:''}}@endif">
                         </div>
@@ -81,8 +211,6 @@
             </div>
 
                 @if(isset($data))
-
-{{--                    @dd($data)--}}
                     <div class="mt-5">
                         <h3>compare</h3>
 
@@ -135,37 +263,6 @@
                                 <h4>Отже, якщо ми віддаємо перевагу оцінці за індексом то враховуючи ці дані можна сказати що професія {{($data['professions']['compare'][0])->translate(app()->getLocale())->name}} в даних країнах оцінюється @if($sum_index > 0) <span class="text-success">краще</span> @else <span class="text-danger">гірше</span>  @endif ніж  {{($data['professions']['compare_with'][0])->translate(app()->getLocale())->name}}</h4>
                             </div>
                         </div>
-{{--                        <div class="mt-3 d-flex flex-row bd-highlight mb-3 w-100 justify-content-between">--}}
-{{--                            @foreach($data as $item)--}}
-{{--                                <div class="col-auto m-3" style="width: 33%">--}}
-{{--                                    <h3 class="mb-3">{{$item->translate(app()->getLocale())->name}}</h3>--}}
-{{--                                    <div class="mt-3 border-dark border">--}}
-{{--                                        <div class="p-3">--}}
-{{--                                            <h3 class="p-3">Cost live</h3>--}}
-{{--                                            <hr>--}}
-{{--                                            <p>Cost live: {{$country[0]->cost_live}}</p>--}}
-{{--                                            <p>Rent: {{$country[0]->rent}}</p>--}}
-{{--                                            <p>Square meter: {{$country[0]->square_meter}}</p>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="p-3">--}}
-{{--                                            <h3 class="p-3">Salaries</h3>--}}
-{{--                                            <hr>--}}
-{{--                                            @foreach($data['professions'] as $id)--}}
-{{--                                                @if(in_array($id, array_keys($country[1])))--}}
-{{--                                                    <p class="h-25">{{($country[1][$id])->profession->translate(app()->getLocale())->name . ' -- '. ($country[1][$id])->amount. ' | index: '. ($country[1][$id])->respect_index}}</p>--}}
-{{--                                                @else--}}
-{{--                                                    <p>---</p>--}}
-{{--                                                @endif--}}
-{{--                                            @endforeach--}}
-{{--                                            <hr>--}}
-{{--                                            <p>Median: {{$country[0]->median}}</p>--}}
-{{--                                            <p>Average: {{$country[0]->average}}</p>--}}
-{{--                                        </div>--}}
-
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @endforeach--}}
-{{--                        </div>--}}
                     </div>
                 @endif
         </div>
@@ -185,5 +282,18 @@
             }
         });
     </script>
+
+{{--    <script type="text/javascript">--}}
+{{--        var route1 = "{{ route('autocomplete-search-country') }}";--}}
+{{--        $('.country').typeahead({--}}
+{{--            source: function (query, process) {--}}
+{{--                return $.get(route1, {--}}
+{{--                    query: query--}}
+{{--                }, function (data) {--}}
+{{--                    return process(data);--}}
+{{--                });--}}
+{{--            }--}}
+{{--        });--}}
+{{--    </script>--}}
 
 @endsection

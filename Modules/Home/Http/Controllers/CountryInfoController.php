@@ -23,6 +23,8 @@ class CountryInfoController extends Controller
 
        $model = Country::filter($filter)->get();
 
+//       dd($model[0]->salaries);
+//salariesOrderByIndex
        return view('home::country.countries', compact('model'));
    }
 
@@ -45,30 +47,31 @@ class CountryInfoController extends Controller
    public function compare(Request $request)
    {
 
-       $compare_country_name = $request->input('compare');
+//       $compare_country_name = $request->input('compare');
+//
+//       if(count(explode(' ', $compare_country_name )) > 1){
+//           $compare_country_name = implode(' ', explode(' ', $compare_country_name ));
+//       }
+//       $compare_country = Country::query()
+//           ->join('country_translations', 'countries.id', '=', 'country_translations.country_id')
+//           ->select('countries.*', 'country_translations.name', 'country_translations.locale', DB::raw('(SELECT MIN(`rent`) FROM countries) AS min_rent'), DB::raw('(SELECT MAX(`rent`) FROM countries) AS max_rent'), DB::raw('(SELECT MIN(cost_live) FROM countries) AS min_cost_live'), DB::raw('(SELECT MAX(cost_live) FROM countries) AS max_cost_live'), DB::raw('(SELECT MIN(square_meter) FROM countries) AS min_square_meter'), DB::raw('(SELECT MAX(square_meter) FROM countries) AS max_square_meter'))
+//           ->where('country_translations.name', 'LIKE', '%'. $compare_country_name. '%')
+//            ->where('country_translations.locale', '=', \app()->getLocale())
+//           ->first();
+       $compare_country = Country::findOrFail($request->input('compare'));
 
-       if(count(explode(' ', $compare_country_name )) > 1){
-           $compare_country_name = implode(' ', explode(' ', $compare_country_name ));
-       }
-       $compare_country = Country::query()
-           ->join('country_translations', 'countries.id', '=', 'country_translations.country_id')
-           ->select('countries.*', 'country_translations.name', 'country_translations.locale', DB::raw('(SELECT MIN(`rent`) FROM countries) AS min_rent'), DB::raw('(SELECT MAX(`rent`) FROM countries) AS max_rent'), DB::raw('(SELECT MIN(cost_live) FROM countries) AS min_cost_live'), DB::raw('(SELECT MAX(cost_live) FROM countries) AS max_cost_live'), DB::raw('(SELECT MIN(square_meter) FROM countries) AS min_square_meter'), DB::raw('(SELECT MAX(square_meter) FROM countries) AS max_square_meter'))
-           ->where('country_translations.name', 'LIKE', '%'. $compare_country_name. '%')
-            ->where('country_translations.locale', '=', \app()->getLocale())
-           ->first();
-
-
-       $compare_with_name = $request->input('compare_with');
-
-       if(count(explode(' ', $compare_with_name )) > 1){
-           $compare_with_name = implode(' ', explode(' ', $compare_with_name ));
-       }
-       $compare_with = Country::query()
-           ->join('country_translations', 'countries.id', '=', 'country_translations.country_id')
-           ->select('countries.*', 'country_translations.name', 'country_translations.locale', DB::raw('(SELECT MIN(`rent`) FROM countries) AS min_rent'), DB::raw('(SELECT MAX(`rent`) FROM countries) AS max_rent'), DB::raw('(SELECT MIN(cost_live) FROM countries) AS min_cost_live'), DB::raw('(SELECT MAX(cost_live) FROM countries) AS max_cost_live'), DB::raw('(SELECT MIN(square_meter) FROM countries) AS min_square_meter'), DB::raw('(SELECT MAX(square_meter) FROM countries) AS max_square_meter'))
-           ->where('country_translations.name', 'LIKE', '%'. $compare_with_name. '%')
-            ->where('country_translations.locale', '=', \app()->getLocale())
-           ->first();
+       $compare_with  = Country::findOrFail($request->input('compare_with'));
+//       $compare_with_name = $request->input('compare_with');
+//
+//       if(count(explode(' ', $compare_with_name )) > 1){
+//           $compare_with_name = implode(' ', explode(' ', $compare_with_name ));
+//       }
+//       $compare_with = Country::query()
+//           ->join('country_translations', 'countries.id', '=', 'country_translations.country_id')
+//           ->select('countries.*', 'country_translations.name', 'country_translations.locale', DB::raw('(SELECT MIN(`rent`) FROM countries) AS min_rent'), DB::raw('(SELECT MAX(`rent`) FROM countries) AS max_rent'), DB::raw('(SELECT MIN(cost_live) FROM countries) AS min_cost_live'), DB::raw('(SELECT MAX(cost_live) FROM countries) AS max_cost_live'), DB::raw('(SELECT MIN(square_meter) FROM countries) AS min_square_meter'), DB::raw('(SELECT MAX(square_meter) FROM countries) AS max_square_meter'))
+//           ->where('country_translations.name', 'LIKE', '%'. $compare_with_name. '%')
+//            ->where('country_translations.locale', '=', \app()->getLocale())
+//           ->first();
 
 
 //       $professions = $compare_country->salaries > $compare_with->salaries ? $compare_country->salaries :$compare_with->salaries;
@@ -79,6 +82,8 @@ class CountryInfoController extends Controller
        $pros = [];
        $compare_professions = [];
        $with_professions = [];
+
+//       dd($compare_country->salaries);
 
        foreach ($compare_country->salaries as $slary){
            $compare_professions[$slary->profession->id] = $slary;

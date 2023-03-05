@@ -48,6 +48,12 @@ return [
     'Sum of all indexes:' => 'Сума всіх індексів:',
     'Compare countries' => 'Порівняння країн',
     'Compare professions' => 'Порівняння професій',
+    'Enter your salary' => 'Введіть вашу зарплатню',
+    'Calculate' => 'Розрахувати',
+    'Median' => 'Медіана',
+
+
+
 
 
 

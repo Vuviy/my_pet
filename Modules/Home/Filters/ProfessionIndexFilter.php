@@ -8,19 +8,25 @@ use Modules\Home\Models\Profession;
 class ProfessionIndexFilter extends QueryFilter
 {
 
-    public function search($str = '')
+    public function search($id = '')
     {
 
-        $profesiion = $str;
-
-        if(count(explode(' ', $profesiion )) > 1){
-            $profesiion = implode(' ', explode(' ', $profesiion ));
-        }
-
+//        $profesiion = $str;
+//
+//        if(count(explode(' ', $profesiion )) > 1){
+//            $profesiion = implode(' ', explode(' ', $profesiion ));
+//        }
+//
+//        return $this->builder
+//            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
+//            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale',)
+//            ->where('profession_translations.name', 'LIKE', '%'. $profesiion. '%')
+////            ->where('profession_translations.locale', '=', $locale)
+//            ->first();
         return $this->builder
-            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
-            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale',)
-            ->where('profession_translations.name', 'LIKE', '%'. $profesiion. '%')
+//            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
+//            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale',)
+            ->where('id', $id)
 //            ->where('profession_translations.locale', '=', $locale)
             ->first();
 

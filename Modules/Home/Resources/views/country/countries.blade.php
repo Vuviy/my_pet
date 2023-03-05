@@ -29,9 +29,9 @@
      }
 
 @endphp
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js">
-    </script>
+{{--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>--}}
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js">--}}
+{{--    </script>--}}
 
         <main>
             <div class="container mt-3">
@@ -40,16 +40,17 @@
                 </div>
                 <div class="mt-5">
                     <form class="row g-2" method="GET">
-                        {{--                    action="{{route('professionsSearch')}}"--}}
-                        {{--                    @csrf--}}
                         <div class="col-auto w-50">
                             <label for="search" class="visually-hidden">{{__('home::main.Enter country')}}</label>
-                            <input name="search" type="text" class="form-control country" id="country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['search'])){{$_GET['search'] != ''?$_GET['search']:''}}@endif">
+
+                            <select name="search" class="form-select">
+                                <option selected value="0">{{__('home::main.Country')}}</option>
+                                @foreach($countries as $country)
+                                    <option @if(isset($model) && $model[0]->id == $country->id) selected @endif value="{{$country->id}}">{{$country->translate(app()->getLocale())->name}}</option>
+                                @endforeach
+                            </select>
+{{--                            <input name="search" type="text" class="form-control country" id="country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['search'])){{$_GET['search'] != ''?$_GET['search']:''}}@endif">--}}
                         </div>
-                        {{--                    <div class="col-auto">--}}
-                        {{--                        <label for="country" class="visually-hidden">{{__('home::main.Enter country')}}</label>--}}
-                        {{--                        <input name="country" type="text" class="form-control" id="country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['country'])){{$_GET['country'] != ''?$_GET['country']:''}}@endif">--}}
-                        {{--                    </div>--}}
                         <div class="col-auto">
                             <button type="submit" class="btn btn-primary mb-3">{{__('home::main.search')}}</button>
                         </div>
@@ -62,10 +63,7 @@
                         @if(!count($model))
                             <h3>Нічого не знайдено</h3>
                         @elseif(count($model) > 1)
-                            {{--                    @dd($result)--}}
                         @else
-
-{{--                            @dd($model);--}}
                             <hr>
                             <h2 class="h2">{{$model[0]->translate(app()->getLocale())->name}}</h2>
                             <hr>
@@ -141,7 +139,6 @@
                             <section class="professions border border-dark p-3 m-3">
                                 <div class="">
                                         <h2>{{__('home::main.Professions')}}</h2>
-
                                         <div class="mt-5">
                                         <table class="table">
                                             <thead class="thead-dark">
@@ -165,9 +162,6 @@
                                     </div>
                                     </div>
                             </section>
-
-
-
                         @endif
                     @endif
                 </div>
@@ -179,12 +173,30 @@
                         <div class="col-auto m-3" style="width: 40%">
                             <h3 class="mb-3">Оберіть країну для прівняння</h3>
                             <label for="compare" class="visually-hidden">{{__('home::main.Enter country')}}</label>
-                            <input name="compare" type="text" class="form-control country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['compare'])){{$_GET['compare'] != ''?$_GET['compare']:''}}@endif">
+
+                            <select name="compare" class="form-select">
+                                <option selected value="0">{{__('home::main.Country')}}</option>
+                                @foreach($countries as $country)
+                                    <option @if(isset($data) && $country->id == $data['countries']['compare'][0]->id) selected @endif value="{{$country->id}}">{{$country->translate(app()->getLocale())->name}}</option>
+                                @endforeach
+                            </select>
+
+
+
+{{--                            <input name="compare" type="text" class="form-control country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['compare'])){{$_GET['compare'] != ''?$_GET['compare']:''}}@endif">--}}
                         </div>
                         <div class="col-auto m-3" style="width: 40%">
                             <h3 class="mb-3">Оберіть країну з якою буде порівняння</h3>
                             <label for="compare_with" class="visually-hidden">{{__('home::main.Enter country')}}</label>
-                            <input name="compare_with" type="text" class="form-control country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['compare_with'])){{$_GET['compare_with'] != ''?$_GET['compare_with']:''}}@endif">
+
+                            <select name="compare_with" class="form-select">
+                                <option selected value="0">{{__('home::main.Country')}}</option>
+                                @foreach($countries as $country)
+                                    <option @if(isset($data) && $country->id == $data['countries']['compare_with'][0]->id) selected @endif value="{{$country->id}}">{{$country->translate(app()->getLocale())->name}}</option>
+                                @endforeach
+                            </select>
+
+{{--                            <input name="compare_with" type="text" class="form-control country" placeholder="{{__('home::main.Country')}}" value="@if(isset($_GET['compare_with'])){{$_GET['compare_with'] != ''?$_GET['compare_with']:''}}@endif">--}}
                         </div>
                     </div>
                     <button class="btn btn-primary mb-3" id="compare">Compare</button>
@@ -269,26 +281,124 @@
                                     </div>
                                 </div>
                         </div>
+
+                        <div class="mt-3 border border-success p-3">
+                            <h3>Топ 5 професій які найбільше поважають</h3>
+                            <div class="mt-3 d-flex flex-row bd-highlight mb-3 w-100 justify-content-between">
+                                @foreach($data['countries'] as $country)
+                                    <div  style="width: 45%">
+                                        <h3>{{$country[0]->translate(app()->getLocale())->name}}</h3>
+                                        <div class="mt-5">
+                                            <table class="table">
+                                                <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">{{__('home::main.Profession')}}</th>
+                                                    <th scope="col">{{__('home::main.Salary')}}</th>
+                                                    <th scope="col">{{__('home::main.Index')}}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                @php
+                                                    $limit = 0;
+                                                @endphp
+                                                @foreach($country[1] as $item)
+                                                    @php
+                                                        $limit++;
+                                                    @endphp
+                                                    @if($limit < 5)
+                                                        <tr>
+                                                            <td>{{$item->profession->translate(app()->getLocale())->name}}</td>
+                                                            <td>{{$item->amount}}</td>
+                                                            <td>{{$item->respect_index}}</td>
+                                                            {{--                                        <td>{{$item->country->translate(app()->getLocale())->name}}</td>--}}
+                                                            {{--                                        <td>{{$item->amount}}</td>--}}
+                                                            {{--                                        <td>{{isset($item->respect_index) ? $item->respect_index : '---'}}</td>--}}
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="mt-3 border border-danger p-3">
+                            <h3>Топ 5 професій які найменше поважають</h3>
+                            <div class="mt-3 d-flex flex-row bd-highlight mb-3 w-100 justify-content-between">
+                                @foreach($data['countries'] as $country)
+                                    <div  style="width: 45%">
+                                        <h3>{{$country[0]->translate(app()->getLocale())->name}}</h3>
+                                        <div class="mt-5">
+                                            <table class="table">
+                                                <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">{{__('home::main.Profession')}}</th>
+                                                    <th scope="col">{{__('home::main.Salary')}}</th>
+                                                    <th scope="col">{{__('home::main.Index')}}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                @php
+                                                    $limit = 0;
+
+                                                $arr = array_reverse($country[1]);
+                                                @endphp
+                                                @foreach($arr as $item)
+                                                    @php
+                                                        $limit++;
+                                                    @endphp
+                                                    @if($limit < 5)
+                                                        <tr>
+                                                            <td>{{$item->profession->translate(app()->getLocale())->name}}</td>
+                                                            <td>{{$item->amount}}</td>
+                                                            <td>{{$item->respect_index}}</td>
+                                                            {{--                                        <td>{{$item->country->translate(app()->getLocale())->name}}</td>--}}
+                                                            {{--                                        <td>{{$item->amount}}</td>--}}
+                                                            {{--                                        <td>{{isset($item->respect_index) ? $item->respect_index : '---'}}</td>--}}
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <h2>Висновок:</h2>
+                            <h3>
+                                Отже, загалом оцінка професій в {{($data['countries']['compare'][0])->translate(app()->getLocale())->name}} відрізняється від {{($data['countries']['compare_with'][0])->translate(app()->getLocale())->name}} на <span class="{{$median > 0 ? 'text-success' : 'text-danger'}}">{{$median}}</span>
+                            </h3>
+                        </div>
+
                     @endif
 
                 </div>
+
 
             </div>
     </main>
 
 
 
-        <script type="text/javascript">
-            var route = "{{ route('autocomplete-search-country') }}";
-            $('.country').typeahead({
-                source: function (query, process) {
-                    return $.get(route, {
-                        query: query
-                    }, function (data) {
-                        return process(data);
-                    });
-                }
-            });
-        </script>
+{{--        <script type="text/javascript">--}}
+{{--            var route = "{{ route('autocomplete-search-country') }}";--}}
+{{--            $('.country').typeahead({--}}
+{{--                source: function (query, process) {--}}
+{{--                    return $.get(route, {--}}
+{{--                        query: query--}}
+{{--                    }, function (data) {--}}
+{{--                        return process(data);--}}
+{{--                    });--}}
+{{--                }--}}
+{{--            });--}}
+{{--        </script>--}}
 
 @endsection

@@ -10,6 +10,7 @@
 </head>
 <body>
 
+
 {{--<div class="container mt-5">--}}
 {{--    <form action="process-form.php" method="POST" class="bg-dark text-light p-4 rounded mx-auto" style="width: 50%;">--}}
 {{--        <div class="mb-3">--}}
@@ -69,36 +70,85 @@
             <table class="table table-bordered table-striped">
                 <tbody>
                 <tr>
-                    <td>8:00 - 10:00</td>
+                    <td>8:00 - 9:00</td>
                     <td>Поставка цілей на день</td>
                 </tr>
-                <tr>
-                    <td>10:00 - 10:20</td>
+                <tr class="table-warning">
+                    <td>9:00 - 9:15</td>
                     <td>Перерва</td>
                 </tr>
                 <tr>
-                    <td>10:20 - 12:20</td>
-                    <td>Програмування</td>
+                    <td>9:15 - 10:20</td>
+                    <td>Поставка цілей на день</td>
+                </tr>
+                <tr class="table-warning">
+                    <td>10:20 - 10:30</td>
+                    <td>Перерва</td>
                 </tr>
                 <tr>
-                    <td>12:20 - 13:20</td>
+                    <td>10:30 - 11:20</td>
+                    <td>Програмування</td>
+                </tr>
+
+
+                <tr>
+                    <td>11:20 - 12:00</td>
+                    <td>Тренування</td>
+                </tr>
+                <tr class="table-warning">
+                    <td>12:00 - 12:30</td>
                     <td>Обід</td>
                 </tr>
                 <tr>
-                    <td>13:20 - 15:20</td>
+                    <td>12:30 - 13:10</td>
                     <td>Програмування</td>
                 </tr>
+                <tr class="table-warning">
+                    <td>13:10 - 13:20</td>
+                    <td>Перерва</td>
+                </tr>
+
+{{--                <tr class="table-warning">--}}
+{{--                    <td>11:20 - 11:30</td>--}}
+{{--                    <td>Перерва</td>--}}
+{{--                </tr>--}}
+{{--                <tr>--}}
+{{--                    <td>11:30 - 12:20</td>--}}
+{{--                    <td>Програмування</td>--}}
+{{--                </tr>--}}
+{{--                <tr class="table-warning">--}}
+{{--                    <td>12:20 - 13:20</td>--}}
+{{--                    <td>Обід</td>--}}
+{{--                </tr>--}}
+
+
                 <tr>
-                    <td>15:20 - 15:40</td>
+                    <td>13:20 - 14:20</td>
+                    <td>Програмування</td>
+                </tr>
+                <tr class="table-warning">
+                    <td>14:20 - 14:40</td>
                     <td>Перерва</td>
                 </tr>
                 <tr>
-                    <td>15:40 - 17:40</td>
+                    <td>14:40 - 15:40</td>
                     <td>Програмування</td>
                 </tr>
+                <tr class="table-warning">
+                    <td>15:40 - 16:00</td>
+                    <td>Перерва</td>
+                </tr>
                 <tr>
-                    <td>17:40 - 18:40</td>
-                    <td>Вечеря</td>
+                    <td>16:00 - 17:00</td>
+                    <td>Програмування</td>
+                </tr>
+                <tr class="table-warning">
+                    <td>17:00 - 17:10</td>
+                    <td>Перерва</td>
+                </tr>
+                <tr>
+                    <td>17:10 - 18:10</td>
+                    <td>Програмування</td>
                 </tr>
                 </tbody>
             </table>
@@ -107,6 +157,10 @@
             <h4 class="text-center">Вечірня рутина</h4>
             <table class="table table-bordered table-striped">
                 <tbody>
+                <tr>
+                    <td>18:10 - 18:40</td>
+                    <td>Вечеря</td>
+                </tr>
                 <tr>
                     <td>18:40 - 20:40</td>
                     <td>Розваги/відпочинок</td>
@@ -178,9 +232,11 @@
         // перевіряємо, чи поточний час знаходиться між початковим та кінцевим часом рядка таблиці
         if (now >= startTime && now < endTime) {
             tableRows[i].classList.add("table-info"); // додаємо клас, який підсвічує поточний рядок таблиці
+            tableRows[i].classList.remove("table-warning"); // додаємо клас, який підсвічує поточний рядок таблиці
         }
         // перевіряємо, чи поточний час знаходиться між початковим та кінцевим часом рядка таблиці
         if (now > endTime) {
+            tableRows[i].classList.remove("table-warning"); // додаємо клас, який підсвічує поточний рядок таблиці
             tableRows[i].classList.add("table-success"); // додаємо клас, який підсвічує поточний рядок таблиці
         }
     }

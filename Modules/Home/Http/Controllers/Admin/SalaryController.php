@@ -238,14 +238,8 @@ class SalaryController extends Controller
 
         $respect_index = round($amountVal/($cost_live + $rent + (0.3*$square_meter)), 3);
 
-//        dump($model->amount);
-//        dump($cost_live);
-//        dump($rent);
-//        dump($square_meter);
-//        dd($respect_index);
-
-      $model->respect_index = $respect_index;
-      $model->save();
+        $model->respect_index = $respect_index;
+        $model->save();
 
         return $model->respect_index;
     }
