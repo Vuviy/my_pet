@@ -1,0 +1,6 @@
+
+
+GET http://localhost:8888/my_pet/public/api/v1/countries
+Accept: application/json
+
+###

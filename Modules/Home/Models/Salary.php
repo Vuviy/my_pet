@@ -28,8 +28,8 @@ class Salary extends Model
         return $filter->apply($builder);
     }
 
-//    public function scopePublished($query)
-//    {
-//        return $query->where('status', 1);
-//    }
+    public function scopePublished($query)
+    {
+        return $query->where('status', 1);
+    }
 }

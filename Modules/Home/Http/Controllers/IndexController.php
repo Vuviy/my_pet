@@ -2,6 +2,7 @@
 
 namespace Modules\Home\Http\Controllers;
 
+use App\Models\ApiToken;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -30,6 +31,30 @@ class IndexController extends Controller
             ->get();
 
         return $countries;
+    }
+
+    public function api_docs()
+    {
+        return view('home::api.docs');
+    }
+
+    public function create_token()
+    {
+
+        $token = sha1(fake()->words(5, true));
+
+        $apis = ApiToken::all();
+
+        foreach ($apis as $api_token){
+            if($api_token->token == $token){
+                $token = sha1(fake()->words(5, true));
+            }
+        }
+
+        $model = new ApiToken();
+        $model->fill(['token' => $token])->save();
+
+        return $token;
     }
 
 }

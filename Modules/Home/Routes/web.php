@@ -30,6 +30,8 @@ Route::group(
     Route::get('/autocomplete-search-country', [\Modules\Home\Http\Controllers\CountryInfoController::class, 'autocompleteSearch'])->name('autocomplete-search-country');
 
     Route::get('/indexes', [\Modules\Home\Http\Controllers\IndexController::class, 'index'])->name('indexes');
+    Route::get('/api_docs', [\Modules\Home\Http\Controllers\IndexController::class, 'api_docs'])->name('api_docs');
+    Route::post('/create_token', [\Modules\Home\Http\Controllers\IndexController::class, 'create_token'])->name('create_token');
 
 });
 

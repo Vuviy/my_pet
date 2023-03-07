@@ -17,5 +17,6 @@ class VerifyCsrfToken extends Middleware
         'admin/category/*',
         'admin/professions/*',
         'admin/salary/*',
+        '*/create_token',
     ];
 }

@@ -106,29 +106,43 @@ class ProfessionController extends Controller
     public function compare(Request $request)
     {
 
-        $compare_profession_name = $request->input('compare');
-
-        if(count(explode(' ', $compare_profession_name )) > 1){
-            $compare_profession_name = implode(' ', explode(' ', $compare_profession_name ));
-        }
+//        $compare_profession_name = $request->input('compare');
+//
+//        if(count(explode(' ', $compare_profession_name )) > 1){
+//            $compare_profession_name = implode(' ', explode(' ', $compare_profession_name ));
+//        }
+//        $compare_profession = Profession::query()
+//            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
+//            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale')
+//            ->where('profession_translations.name', 'LIKE', '%'. $compare_profession_name. '%')
+////            ->where('profession_translations.locale', '=', \app()->getLocale())
+//            ->published()
+//            ->first();
         $compare_profession = Profession::query()
-            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
-            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale')
-            ->where('profession_translations.name', 'LIKE', '%'. $compare_profession_name. '%')
+//            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
+//            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale')
+            ->where('id', $request->input('compare'))
 //            ->where('profession_translations.locale', '=', \app()->getLocale())
             ->published()
             ->first();
 
 
-        $compare_with_name = $request->input('compare_with');
-
-        if(count(explode(' ', $compare_with_name )) > 1){
-            $compare_with_name = implode(' ', explode(' ', $compare_with_name ));
-        }
+//        $compare_with_name = $request->input('compare_with');
+//
+//        if(count(explode(' ', $compare_with_name )) > 1){
+//            $compare_with_name = implode(' ', explode(' ', $compare_with_name ));
+//        }
+//        $compare_with = Profession::query()
+//            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
+//            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale')
+//            ->where('profession_translations.name', 'LIKE', '%'. $compare_with_name. '%')
+////            ->where('profession_translations.locale', '=', \app()->getLocale())
+//            ->published()
+//            ->first();
         $compare_with = Profession::query()
-            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
-            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale')
-            ->where('profession_translations.name', 'LIKE', '%'. $compare_with_name. '%')
+//            ->join('profession_translations', 'professions.id', '=', 'profession_translations.profession_id')
+//            ->select('professions.*', 'profession_translations.name', 'profession_translations.locale')
+            ->where('id', $request->input('compare_with'))
 //            ->where('profession_translations.locale', '=', \app()->getLocale())
             ->published()
             ->first();

@@ -79,7 +79,7 @@
                 </tr>
                 <tr>
                     <td>9:15 - 10:20</td>
-                    <td>Поставка цілей на день</td>
+                    <td>Програмування</td>
                 </tr>
                 <tr class="table-warning">
                     <td>10:20 - 10:30</td>
@@ -92,20 +92,12 @@
 
 
                 <tr>
-                    <td>11:20 - 12:00</td>
+                    <td>11:20 - 12:20</td>
                     <td>Тренування</td>
                 </tr>
                 <tr class="table-warning">
-                    <td>12:00 - 12:30</td>
+                    <td>12:20 - 13:00</td>
                     <td>Обід</td>
-                </tr>
-                <tr>
-                    <td>12:30 - 13:10</td>
-                    <td>Програмування</td>
-                </tr>
-                <tr class="table-warning">
-                    <td>13:10 - 13:20</td>
-                    <td>Перерва</td>
                 </tr>
 
 {{--                <tr class="table-warning">--}}
@@ -123,7 +115,7 @@
 
 
                 <tr>
-                    <td>13:20 - 14:20</td>
+                    <td>13:00 - 14:20</td>
                     <td>Програмування</td>
                 </tr>
                 <tr class="table-warning">

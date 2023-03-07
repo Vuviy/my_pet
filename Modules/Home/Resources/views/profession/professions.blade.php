@@ -27,7 +27,7 @@
                             <option selected value="0">{{__('home::main.Profession')}}</option>
 
                             @foreach($profs as $pro)
-                                <option @if(count($result) == 1 && $pro->id == $result[0]->id) selected @endif value="{{$pro->id}}">{{$pro->translate(app()->getLocale())->name}}</option>
+                                <option @if(isset($result) && count($result) == 1 && $pro->id == $result[0]->id) selected @endif value="{{$pro->id}}">{{$pro->translate(app()->getLocale())->name}}</option>
                             @endforeach
                         </select>
 
@@ -198,12 +198,27 @@
                         <div class="col-auto m-3" style="width: 40%">
                             <h3 class="mb-3 mb-5">Оберіть професію для прівняння</h3>
                             <label for="compare" class="visually-hidden">{{__('home::main.Enter profession')}}</label>
-                            <input name="compare" type="text" class="form-control profession" placeholder="{{__('home::main.Profession')}}" value="@if(isset($_GET['compare'])){{$_GET['compare'] != ''?$_GET['compare']:''}}@endif">
+
+                            <select name="compare" class="form-select">
+                                <option selected value="0">{{__('home::main.Profession')}}</option>
+                                @foreach($profs as $pro)
+                                    <option @if(isset($data) && $pro->id == $data['professions']['compare'][0]->id) selected @endif value="{{$pro->id}}">{{$pro->translate(app()->getLocale())->name}}</option>
+                                @endforeach
+                            </select>
+
+{{--                            <input name="compare" type="text" class="form-control profession" placeholder="{{__('home::main.Profession')}}" value="@if(isset($_GET['compare'])){{$_GET['compare'] != ''?$_GET['compare']:''}}@endif">--}}
                         </div>
                         <div class="col-auto m-3" style="width: 40%">
                             <h3 class="mb-3">Оберіть професію з якою буде порівняння</h3>
                             <label for="compare_with" class="visually-hidden">{{__('home::main.Enter profession')}}</label>
-                            <input name="compare_with" type="text" class="form-control profession" placeholder="{{__('home::main.Profession')}}" value="@if(isset($_GET['compare_with'])){{$_GET['compare_with'] != ''?$_GET['compare_with']:''}}@endif">
+
+                            <select name="compare_with" class="form-select">
+                                <option selected value="0">{{__('home::main.Profession')}}</option>
+                                @foreach($profs as $pro)
+                                    <option @if(isset($data) && $pro->id == $data['professions']['compare_with'][0]->id) selected @endif value="{{$pro->id}}">{{$pro->translate(app()->getLocale())->name}}</option>
+                                @endforeach
+                            </select>
+{{--                            <input name="compare_with" type="text" class="form-control profession" placeholder="{{__('home::main.Profession')}}" value="@if(isset($_GET['compare_with'])){{$_GET['compare_with'] != ''?$_GET['compare_with']:''}}@endif">--}}
                         </div>
                     </div>
                     <button class="btn btn-primary mb-3" id="compare">Порівняти</button>
